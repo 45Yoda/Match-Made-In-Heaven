@@ -8,6 +8,9 @@ public class User implements Comparable<User>{
     private final String username;
     private final String password;
     private Socket session;
+    private int jogos;
+    private int win;
+    private int rank;
 
     User(String username,String password){
         this.username = username;
@@ -27,6 +30,14 @@ public class User implements Comparable<User>{
             session.close();
 
         session = sock;
+    }
+
+    public int getRank() {return this.rank;}
+
+    public void atualizaRank(int res) {
+        this.jogos++;
+        if (res==1) this.win++;
+        this.rank = (this.win/this.rank)-1;
     }
 
     public String toString(){
