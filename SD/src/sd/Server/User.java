@@ -15,6 +15,9 @@ public class User implements Comparable<User>{
     User(String username,String password){
         this.username = username;
         this.password = password;
+        this.jogos=0;
+        this.win=0;
+        this.rank=-1;
     }
 
     public int compareTo(User u){
@@ -37,7 +40,7 @@ public class User implements Comparable<User>{
     public void atualizaRank(int res) {
         this.jogos++;
         if (res==1) this.win++;
-        this.rank = (this.win/this.rank)-1;
+        if (this.jogos>=10) this.rank = (this.win/this.rank)-1;
     }
 
     public String toString(){
