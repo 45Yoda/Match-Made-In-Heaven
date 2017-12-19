@@ -130,6 +130,6 @@ public class User extends Thread implements Comparable<User> {
 //*******************************************************************+
         public void run() {
             try {distribuirUser(this);}
-            catch(Exception e) {System.out.println("tetos");}
+            catch(Exception e) {System.out.println("thread "+ getUsername() +" tetos");}
         }
 }

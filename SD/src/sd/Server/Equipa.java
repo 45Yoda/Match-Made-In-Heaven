@@ -21,8 +21,10 @@ public class Equipa {
         public int getJog() {return this.jog;}
 	
         public synchronized void insere(User user) throws InterruptedException{
-            ranks[jog]=user.getRank();
-            jog++;
+            //lock.lock();
+            //try {
+            this.ranks[this.jog]=user.getRank();
+            this.jog++;
             System.out.println("nr jogadores equipa: "+jog);
             while(jog<5) {
                 System.out.println("vou esperar");
@@ -31,22 +33,23 @@ public class Equipa {
              notifyAll();
              System.out.println("oh pa mim a escolher herois");
              //escolhaHeroi();
-	}
+	//}finally{lock.unlock();}
+
+        }
 
     //devolve a media de ranks da equipa
 	public int getMRank() {
             lock.lock();
             try{
-                ranks = new int[5];
 		int soma=0;
-		int jog=0;
-		for(int i=0;i<this.jog;i++)
+		int jogadores=0;
+		for(int i=0;i<this.jog;i++) 
 			if (ranks[i]!=-1) {
-			soma+=ranks[i];
-			jog++;
+                            soma+=ranks[i];
+                            jogadores++;
 			}
-                if (jog==0) return 0;
-		return soma/jog;
+                if (jogadores==0) return 0;
+                else return soma/jogadores;
             }
             finally{lock.unlock();}
         }

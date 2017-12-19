@@ -34,6 +34,7 @@ public class Lobby {
 			wait();
                 }
 		notifyAll();
+                System.out.println("user lobby: "+user.getUsername());
                 distribuiEquipa(user);
 	}
         
