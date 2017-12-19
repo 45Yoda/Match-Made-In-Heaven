@@ -5,6 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Equipa {
 	private int ranks[] = null;
         private int jog;
+        private int pontuacao;
         private Lock lock;
         
         public Equipa(int ranks[],int jog){
@@ -15,28 +16,26 @@ public class Equipa {
         public Equipa() {
             this.ranks = new int[5];
             this.jog = 0;
+            this.pontuacao = 0;
             this.lock= new ReentrantLock();
         }
         
         public int getJog() {return this.jog;}
 	
         public synchronized void insere(User user) throws InterruptedException{
-            //lock.lock();
-            //try {
-            this.ranks[this.jog]=user.getRank();
-            this.jog++;
-            System.out.println("nr jogadores equipa: "+jog);
-            while(jog<5) {
-                System.out.println("vou esperar");
-                wait();
-            }
-             notifyAll();
-             System.out.println("oh pa mim a escolher herois");
-             //escolhaHeroi();
-	//}finally{lock.unlock();}
+                this.ranks[this.jog]=user.getRank();
+                this.jog++;
+                System.out.println("nr jogadores equipa: "+jog);
+                while(jog<5) {
+                    wait();
+                }
+                 notifyAll();
+                 System.out.println("oh pa mim a escolher herois");
+                 //escolhaHeroi();
 
         }
-
+        
+        
     //devolve a media de ranks da equipa
 	public int getMRank() {
             lock.lock();
@@ -53,4 +52,14 @@ public class Equipa {
             }
             finally{lock.unlock();}
         }
-}
+        
+        public void score(int pont) {
+            lock.lock();
+            try{
+            this.pontuacao+=pont;
+            }
+            finally {lock.unlock();}
+        }
+        
+        public int getPontuacao() {return this.pontuacao;}
+     }
