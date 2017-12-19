@@ -93,7 +93,6 @@ public class User extends Thread implements Comparable<User> {
                         if (lobbys[best].getEquipaA().getPontuacao()>lobbys[best].getEquipaB().getPontuacao())
                             System.out.println("Equipa A Win");
                         else System.out.println("Equipa B Win");
-		//System.out.println("distribuiçao");
                 }
 		finally {lock.unlock();}
 	}

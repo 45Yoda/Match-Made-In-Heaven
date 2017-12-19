@@ -25,12 +25,10 @@ public class Equipa {
         public synchronized void insere(User user) throws InterruptedException{
                 this.ranks[this.jog]=user.getRank();
                 this.jog++;
-                System.out.println("nr jogadores equipa: "+jog);
                 while(jog<5) {
                     wait();
                 }
                  notifyAll();
-                 System.out.println("oh pa mim a escolher herois");
                  //escolhaHeroi();
 
         }
@@ -53,12 +51,8 @@ public class Equipa {
             finally{lock.unlock();}
         }
         
-        public void score(int pont) {
-            lock.lock();
-            try{
+        public synchronized void score(int pont) {
             this.pontuacao+=pont;
-            }
-            finally {lock.unlock();}
         }
         
         public int getPontuacao() {return this.pontuacao;}

@@ -36,7 +36,6 @@ public class Lobby {
                     wait();
                     }
                notifyAll();
-               System.out.println("user lobby: "+user.getUsername());
         }
         
         public void resetLobby() {
@@ -47,7 +46,6 @@ public class Lobby {
         }
         
         public void distribuiEquipa(User user) throws InterruptedException {
-            System.out.println("user: " + user.getUsername());
             if (equipaA.getJog()==5)
                 {equipaB.insere(user);user.setEquipa(1);}
 		else if (equipaB.getJog()==5)
@@ -61,7 +59,6 @@ public class Lobby {
                             {equipaA.insere(user);user.setEquipa(0);}
 				else {equipaB.insere(user);user.setEquipa(1);}
 		}
-                System.out.println("eheh");
         }
         
         public void jogar(User user) {
