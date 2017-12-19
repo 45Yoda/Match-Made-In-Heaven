@@ -13,9 +13,14 @@ import java.net.Socket;
  *
  * @author yoda45
  */
+
 public class Server {
     private static final int port = 5000;
-    
+    public Server() {
+        int i;
+    }
+    /*    
+
     public static void main(String[] args) throws IOException{
         ServerSocket server = new ServerSocket(port);
         
@@ -25,5 +30,5 @@ public class Server {
         }
         
         
-    }
+    }*/
 }
