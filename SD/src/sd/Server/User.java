@@ -13,6 +13,7 @@ public class User extends Thread implements Comparable<User> {
     private int win;
     private int rank;
     private final Lobby[] lobbys;
+    private int equipa;
     private Lock lock;
     
     public User(String username,String password,int rank,Lobby[] lobbys) {
@@ -21,7 +22,7 @@ public class User extends Thread implements Comparable<User> {
         this.rank=rank;
         this.lobbys=lobbys;
         this.lock = new ReentrantLock();
-
+        this.equipa=-1;
     }
             
     public void regUser(String username,String password){
@@ -30,6 +31,7 @@ public class User extends Thread implements Comparable<User> {
         this.jogos=0;
         this.win=0;
         this.rank=-1;
+        this.equipa=-1;
     }
 
     public int compareTo(User u){
@@ -49,8 +51,12 @@ public class User extends Thread implements Comparable<User> {
 */
     public int getRank() {return this.rank;}
     public String getUsername() {return this.username;}
+    public int getEquipa() {return equipa;}
     
-    public void atualizaRank(int res) {
+    public void setEquipa(int e) {
+        this.equipa=e;
+    }
+    public void registaJogo(int res) {
         this.jogos++;
         if (res==1) this.win++;
         if (this.jogos>=10) this.rank = (this.win/this.rank)-1;
@@ -77,9 +83,16 @@ public class User extends Thread implements Comparable<User> {
 		lock.lock();
 		try {
 			int rank = user.getRank();
-			int lobby=-1;
-			lobbys[bestLobby(rank)].espera(user);
-		//System.out.println("distribuiçao");
+                        int best = bestLobby(rank);
+			lobbys[best].espera(user);
+                        lobbys[best].distribuiEquipa(user);
+                        //escolher herois
+                        lobbys[best].jogar(user);
+                        //apresentar resultados
+                        lobbys[best].atualizaRes(user);
+                        if (lobbys[best].getEquipaA().getPontuacao()>lobbys[best].getEquipaB().getPontuacao())
+                            System.out.println("Equipa A Win");
+                        else System.out.println("Equipa B Win");
                 }
 		finally {lock.unlock();}
 	}
@@ -130,6 +143,6 @@ public class User extends Thread implements Comparable<User> {
 //*******************************************************************+
         public void run() {
             try {distribuirUser(this);}
-            catch(Exception e) {System.out.println("tetos");}
+            catch(Exception e) {System.out.println("thread "+ e.getMessage() +" tetos");}
         }
 }
