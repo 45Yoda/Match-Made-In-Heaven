@@ -15,6 +15,7 @@ public class User extends Thread implements Comparable<User> {
     private final Lobby[] lobbys; //(!) sair daqui
     private int equipa;
     private Lock lock;
+    private NotificationBuffer buffer;
     
     public User(String username,String password,int rank,Lobby[] lobbys) {
         this.username=username;
@@ -23,6 +24,7 @@ public class User extends Thread implements Comparable<User> {
         this.lobbys=lobbys;
         this.lock = new ReentrantLock();
         this.equipa=-1;
+        buffer = new NotificationBuffer();
     }
             
     public void regUser(String username,String password){
@@ -32,6 +34,7 @@ public class User extends Thread implements Comparable<User> {
         this.win=0;
         this.rank=-1;
         this.equipa=-1;
+        buffer = new NotificationBuffer();
     }
 
     public int compareTo(User u){
@@ -41,6 +44,19 @@ public class User extends Thread implements Comparable<User> {
     public boolean authenticate(String password){
         return this.password.equals(password);
     }
+    
+    public void notificate(String message) {
+		buffer.write(message);
+	}
+    
+    public String readNotification() throws InterruptedException {
+		return buffer.read();
+	}
+    
+    public void resend() {
+		buffer.reset();
+	}
+    
 /*
     public void setSession(Socket sock) throws IOException{
         if(session != null && !session.isClosed())

@@ -5,6 +5,8 @@
  */
 package sd.Server;
 
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 /**
@@ -14,17 +16,50 @@ import java.util.concurrent.locks.ReentrantLock;
 public class Matching {
     private Lock userLock;
     private Lock lobbyLock;
-    private User users[];
+    private Map<String, User> users;
     private Lobby lobbys[];
     
     
     Matching(){
-        User users[] = null;
+        users = new TreeMap<>() ;
         Lobby lobbys[] = null;
         userLock = new ReentrantLock();
         lobbyLock = new ReentrantLock();
         
         }
+    
+    public void SignUp(String username, String password)throws UsernameExistsException{
+        userLock.lock();
+        try{
+            if (users.containsKey(username))
+                throw new UsernameExistsException("O nome de utilizador não está disponível");
+            users.put(username, regUser(username, password));
+            }
+        finally {
+            userLock.unlock();
+            }
+    }
+    
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     */
+    public User login(String username, String password) throws NoAuthorizationException {
+        User user;
+        userLock.lock();
+        try{
+            user = users.get(username);
+            if(user == null || !user.authenticate(password))
+                throw new NoAuthorizationException("Os dados inseridos estão incorretos");
+            user.resend();
+        }
+        finally{
+            userLock.unlock();
+        }
+        return user;
+    }
     
     
 }
