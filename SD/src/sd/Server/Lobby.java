@@ -1,7 +1,7 @@
 package sd.Server;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.*;
+
 
 public class Lobby {
 	private static int tam=10;
@@ -10,6 +10,8 @@ public class Lobby {
 	private int rank;
 	private Equipa equipaA;
 	private Equipa equipaB;
+        Lock lock;
+        Condition notFull;
 
 	public Lobby(int rank) {
 		this.jog = 0;
@@ -17,6 +19,8 @@ public class Lobby {
 		this.rankAdj=-1;
 		equipaA= new Equipa();
 		equipaB = new Equipa();
+                lock = new ReentrantLock();
+                notFull = lock.newCondition();
 	}
 
 
@@ -41,6 +45,7 @@ public class Lobby {
             }
             //apresentar resultados
             atualizaRes(user);
+            user.setEquipa(-1);
             //resetLobby(user); -> fazer noutro sitio
         }
         
@@ -53,13 +58,12 @@ public class Lobby {
                notifyAll();
         }
         
-        public synchronized void resetLobby(User user) throws InterruptedException{
-            user.setEquipa(-1);
-            //(!) só uma thread precisa de fazer o que vem a seguir
+        public synchronized void resetLobby() throws InterruptedException{
             this.jog=0;
             this.rankAdj=-1;
             this.equipaA=new Equipa();
             this.equipaB=new Equipa();
+            notFull.signal();
         }
         
         public synchronized void distribuiEquipa(User user) throws InterruptedException {

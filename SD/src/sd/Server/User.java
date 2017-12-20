@@ -100,16 +100,18 @@ public class User extends Thread implements Comparable<User> {
 		try {
 			int rank = user.getRank();
                         int best = bestLobby(rank);
-                        if (best!=-1) {
-                            lobbys[best].gereUser(user);
-                            if (lobbys[best].getEquipaA().getPontuacao()>lobbys[best].getEquipaB().getPontuacao())
-                                System.out.println("Equipa A Win");
-                            else System.out.println("Equipa B Win");
+                        while(best==-1){
+                            lobbys[rank].notFull.await();
+                            best = bestLobby(rank);
                         }
-                        else System.out.println("Sem Lobbys Disponiveis de momento.");
-                }
+                        lobbys[best].gereUser(user);
+                        if (lobbys[best].getEquipaA().getPontuacao()>lobbys[best].getEquipaB().getPontuacao())
+                                System.out.println("Equipa A Win");
+                        else System.out.println("Equipa B Win");
+                        }
 		finally {lock.unlock();}
 	}
+
 
 	//devolve o lobby mais cheio onde o user pode jogar
 	public int bestLobby(int rank) {

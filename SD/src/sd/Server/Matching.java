@@ -17,7 +17,7 @@ public class Matching {
     private Lock userLock;
     private Lock lobbyLock;
     private Map<String, User> users;
-    private Lobby lobbys[];
+    private Lobby lobbys[] = new Lobby[10];;
     
     
     Matching(){
