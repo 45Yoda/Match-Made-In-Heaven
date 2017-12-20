@@ -20,17 +20,13 @@ public class Equipa {
             this.lock= new ReentrantLock();
         }
         
-        public int getJog() {return this.jog;}
+        public int getJog() {
+            return this.jog;
+        }
 	
-        public synchronized void insere(User user) throws InterruptedException{
+        public void insere(User user) {
                 this.ranks[this.jog]=user.getRank();
                 this.jog++;
-                while(jog<5) {
-                    wait();
-                }
-                 notifyAll();
-                 //escolhaHeroi();
-
         }
         
         
@@ -51,8 +47,12 @@ public class Equipa {
             finally{lock.unlock();}
         }
         
-        public synchronized void score(int pont) {
+        public void score(int pont) {
+            lock.lock();
+            try{
             this.pontuacao+=pont;
+            }
+            finally{lock.unlock();}
         }
         
         public int getPontuacao() {return this.pontuacao;}

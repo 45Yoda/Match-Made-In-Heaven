@@ -12,7 +12,7 @@ public class User extends Thread implements Comparable<User> {
     private int jogos;
     private int win;
     private int rank;
-    private final Lobby[] lobbys;
+    private final Lobby[] lobbys; //(!) sair daqui
     private int equipa;
     private Lock lock;
     
@@ -84,15 +84,13 @@ public class User extends Thread implements Comparable<User> {
 		try {
 			int rank = user.getRank();
                         int best = bestLobby(rank);
-			lobbys[best].espera(user);
-                        lobbys[best].distribuiEquipa(user);
-                        //escolher herois
-                        lobbys[best].jogar(user);
-                        //apresentar resultados
-                        lobbys[best].atualizaRes(user);
-                        if (lobbys[best].getEquipaA().getPontuacao()>lobbys[best].getEquipaB().getPontuacao())
-                            System.out.println("Equipa A Win");
-                        else System.out.println("Equipa B Win");
+                        if (best!=-1) {
+                            lobbys[best].gereUser(user);
+                            if (lobbys[best].getEquipaA().getPontuacao()>lobbys[best].getEquipaB().getPontuacao())
+                                System.out.println("Equipa A Win");
+                            else System.out.println("Equipa B Win");
+                        }
+                        else System.out.println("Sem Lobbys Disponiveis de momento.");
                 }
 		finally {lock.unlock();}
 	}
@@ -137,7 +135,7 @@ public class User extends Thread implements Comparable<User> {
 	public int ocup(int min,int max) {
 		int m=-1;
 		for (int i = min;i<=max;i++)
-			if (lobbys[i].getJog()>m) m=i;
+			if (lobbys[i].getJog()>m && lobbys[i].getJog()!=10) m=i;
 		return m;
 	}
 //*******************************************************************+

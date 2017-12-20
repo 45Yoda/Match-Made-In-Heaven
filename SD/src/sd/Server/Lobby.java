@@ -10,7 +10,6 @@ public class Lobby {
 	private int rank;
 	private Equipa equipaA;
 	private Equipa equipaB;
-        private Lock lock;
 
 	public Lobby(int rank) {
 		this.jog = 0;
@@ -18,7 +17,6 @@ public class Lobby {
 		this.rankAdj=-1;
 		equipaA= new Equipa();
 		equipaB = new Equipa();
-                lock = new ReentrantLock();
 	}
 
 
@@ -29,6 +27,23 @@ public class Lobby {
         public Equipa getEquipaA() {return this.equipaA;}
         public Equipa getEquipaB() {return this.equipaB;}
         
+        
+        public void gereUser(User user) throws InterruptedException{
+            espera(user);
+            distribuiEquipa(user);
+            //escolher herois
+            jogar(user);
+            synchronized (this) { //espera que todos os users tenham jogado
+                jog++;
+                while(jog<20)
+                    wait();
+                notifyAll();
+            }
+            //apresentar resultados
+            atualizaRes(user);
+            //resetLobby(user); -> fazer noutro sitio
+        }
+        
 	public synchronized void espera(User user) throws InterruptedException {
                if ( user.getRank()!=-1 && this.rank!=user.getRank()) rankAdj=user.getRank();
                jog++;
@@ -38,42 +53,51 @@ public class Lobby {
                notifyAll();
         }
         
-        public void resetLobby() {
+        public synchronized void resetLobby(User user) throws InterruptedException{
+            user.setEquipa(-1);
+            //(!) só uma thread precisa de fazer o que vem a seguir
             this.jog=0;
             this.rankAdj=-1;
             this.equipaA=new Equipa();
             this.equipaB=new Equipa();
         }
         
-        public void distribuiEquipa(User user) throws InterruptedException {
-            if (equipaA.getJog()==5)
-                {equipaB.insere(user);user.setEquipa(1);}
-		else if (equipaB.getJog()==5)
-                    {equipaA.insere(user);user.setEquipa(0);}
-		else if (equipaA.getMRank()>equipaB.getMRank()) {
-				if (user.getRank()>=equipaA.getMRank())
-                                    {equipaB.insere(user);user.setEquipa(1);}
-				else {equipaA.insere(user);user.setEquipa(0);}
-		} else {
-			if (user.getRank()>=equipaA.getMRank())
-                            {equipaA.insere(user);user.setEquipa(0);}
-				else {equipaB.insere(user);user.setEquipa(1);}
+        public synchronized void distribuiEquipa(User user) throws InterruptedException {
+            if (equipaA.getJog()==5) {
+                    equipaB.insere(user);user.setEquipa(1);
+                }else if (equipaB.getJog()==5) {
+                    equipaA.insere(user);user.setEquipa(0);
+                    }else if (equipaA.getMRank()>equipaB.getMRank()) {
+				if (user.getRank()>=equipaA.getMRank()) {
+                                    equipaB.insere(user);user.setEquipa(1);
+                                }else {equipaA.insere(user);user.setEquipa(0);}
+                            } else {
+                                    if (user.getRank()>=equipaA.getMRank()) {
+                                        equipaA.insere(user);user.setEquipa(0);
+                                    }else {equipaB.insere(user);user.setEquipa(1);}
 		}
         }
         
-        public void jogar(User user) {
+        public synchronized void jogar(User user) throws InterruptedException{
+            
             int pont = ThreadLocalRandom.current().nextInt(0,10+1);
             if (user.getEquipa()==0)
                 equipaA.score(pont);
             else equipaB.score(pont);
             }
         
-        public void atualizaRes(User user) {
+        public synchronized void atualizaRes(User user) throws InterruptedException{
+            
             if (user.getEquipa()==0) {
-                if (equipaA.getPontuacao()>equipaB.getPontuacao()){
-                    user.registaJogo(1);
-                }
+                if (equipaA.getPontuacao()>equipaB.getPontuacao()) user.registaJogo(1);
                 else user.registaJogo(0);
             }
+            else {if (equipaA.getPontuacao()>equipaB.getPontuacao()) user.registaJogo(0);
+                else user.registaJogo(1);
+                
+            }
+            
         }
+        
+        
         }
