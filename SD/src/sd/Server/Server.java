@@ -12,23 +12,19 @@ import java.net.Socket;
 /**
  *
  * @author yoda45
- */
+ */  
 
-public class Server {
-    private static final int port = 5000;
-    public Server() {
-        int i;
-    }
-    /*    
+ public class Server {
+	private static final int port = 5000;
 
-    public static void main(String[] args) throws IOException{
-        ServerSocket server = new ServerSocket(port);
-        
-        while(true){
-            Socket cliSocket = server.accept();
-            
-        }
-        
-        
-    }*/
+	public static void main(String[] args) throws IOException {
+		ServerSocket srv = new ServerSocket(port);
+		Matching match = new Matching();
+
+		while(true) {
+			Socket cliSocket = srv.accept();
+			Base cli = new Base(match , cliSocket);
+			cli.start();
+		}
+	}
 }

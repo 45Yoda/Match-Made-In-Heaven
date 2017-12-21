@@ -8,7 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class User extends Thread implements Comparable<User> {
     private String username;
     private String password;
-    //private Socket session;
+    private Socket session;
     private int jogos;
     private int win;
     private int rank;
@@ -17,7 +17,20 @@ public class User extends Thread implements Comparable<User> {
     private Lock lock;
     private NotificationBuffer buffer;
     
-    public User(String username,String password,int rank,Lobby[] lobbys) {
+    public User(String username, String password,int rank,Lobby[] lobbys ){
+        this.username = username;
+        this.password = password;
+        this.jogos=0;
+        this.win=0;
+        this.rank=-1;
+        this.lobbys=null; 
+        this.lock= new ReentrantLock();
+        this.equipa=-1;
+        buffer = new NotificationBuffer();
+    }
+    
+    /*
+    public User1(String username,String password,int rank,Lobby[] lobbys) {
         this.username=username;
         this.password=password;
         this.rank=rank;
@@ -26,7 +39,7 @@ public class User extends Thread implements Comparable<User> {
         this.equipa=-1;
         buffer = new NotificationBuffer();
     }
-            
+    */        
     public void regUser(String username,String password){
         this.username = username;
         this.password = password;

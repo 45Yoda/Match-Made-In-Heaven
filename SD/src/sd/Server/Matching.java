@@ -25,7 +25,6 @@ public class Matching {
         Lobby lobbys[] = null;
         userLock = new ReentrantLock();
         lobbyLock = new ReentrantLock();
-        
         }
     
     public void SignUp(String username, String password)throws UsernameExistsException{
@@ -33,7 +32,7 @@ public class Matching {
         try{
             if (users.containsKey(username))
                 throw new UsernameExistsException("O nome de utilizador não está disponível");
-            users.put(username, regUser(username, password));
+            users.put(username, new User(username, password,-1,null));
             }
         finally {
             userLock.unlock();
