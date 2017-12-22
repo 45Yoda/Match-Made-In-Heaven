@@ -56,7 +56,7 @@ public class Base extends Thread{
 		}
 	}
     
-    private String runCommand(String request) throws ArrayIndexOutOfBoundsException, RequestFailedException {
+    private String runCommand(String request) throws ArrayIndexOutOfBoundsException, RequestFailedException, NoMatchException {
 		String[] keywords = request.split(" ");
 
 		switch(keywords[0].toUpperCase()) {
@@ -121,7 +121,7 @@ public class Base extends Thread{
         try{
             user.distribuirUser(user);
         }catch(InterruptedException e){
-            throws new NoMatchException("Não foi possivel encontrar um jogo");
+            throw new NoMatchException("Não foi possivel encontrar um jogo");
         }
         return "";
     }
