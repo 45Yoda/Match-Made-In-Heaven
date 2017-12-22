@@ -70,14 +70,17 @@ public class User extends Thread implements Comparable<User> {
 		buffer.reset();
 	}
     
-/*
+    public void acknowledge(int amount) {
+		buffer.acknowledge(amount);
+	}
+
     public void setSession(Socket sock) throws IOException{
         if(session != null && !session.isClosed())
             session.close();
 
         session = sock;
     }
-*/
+
     public int getRank() {return this.rank;}
     public String getUsername() {return this.username;}
     public int getEquipa() {return equipa;}
