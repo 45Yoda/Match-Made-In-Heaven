@@ -46,7 +46,7 @@ public class Base extends Thread{
 		endConnection();
 	}
     
-    private String interpreteRequest(String request){
+    private String interpreteRequest(String request) throws NoMatchException{
         try {
 			return runCommand(request);
 		} catch (RequestFailedException e) {
