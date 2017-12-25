@@ -12,25 +12,30 @@ public class User extends Thread implements Comparable<User> {
     private int jogos;
     private int win;
     private int rank;
-    private final Lobby[] lobbys; //(!) sair daqui
+    private Lobby[] lobbys; //(!) sair daqui
     private int equipa;
     private Lock lock;
     private NotificationBuffer buffer;
+    private Heroi heroi;
     
     public User(String username, String password,int rank,Lobby[] lobbys ){
         this.username = username;
         this.password = password;
         this.jogos=0;
         this.win=0;
-        this.rank=-1;
-        this.lobbys=null; 
+        this.rank=rank;
+        this.lobbys=lobbys; 
         this.lock= new ReentrantLock();
         this.equipa=-1;
         buffer = new NotificationBuffer();
+        this.heroi=null;
     }
     
+    public void reset() {
+        this.equipa=-1;
+    }
     /*
-    public User1(String username,String password,int rank,Lobby[] lobbys) {
+    public void User1(String username,String password,int rank,Lobby[] lobbys) {
         this.username=username;
         this.password=password;
         this.rank=rank;
@@ -38,8 +43,8 @@ public class User extends Thread implements Comparable<User> {
         this.lock = new ReentrantLock();
         this.equipa=-1;
         buffer = new NotificationBuffer();
-    }
-    */        
+    }*/
+            
     public void regUser(String username,String password){
         this.username = username;
         this.password = password;
@@ -48,8 +53,11 @@ public class User extends Thread implements Comparable<User> {
         this.rank=-1;
         this.equipa=-1;
         buffer = new NotificationBuffer();
+        this.heroi=null;
     }
-
+    
+    public Heroi getHeroi() {return this.heroi;}
+    public void setHeroi(Heroi h) {this.heroi=h;}
     public int compareTo(User u){
         return username.compareTo(u.username);
     }
@@ -109,6 +117,7 @@ public class User extends Thread implements Comparable<User> {
         return username.equals(u.username);
     }
     
+    //************************************mudar de classe**********************
     //distribuir um user de cada vez para nao haver mudanças de rankAdj
 	//enquanto outra thread está a consultar
 	public void distribuirUser(User user) throws InterruptedException{
@@ -164,13 +173,14 @@ public class User extends Thread implements Comparable<User> {
 	}
 		finally {lock.unlock();}
 	}
-
+        
 	//devolve o lobby mais cheio entre dois pontos
 	public int ocup(int min,int max) {
 		int m=-1;
 		for (int i = min;i<=max;i++)
 			if (lobbys[i].getJog()>m && lobbys[i].getJog()!=10) m=i;
-		return m;
+		          System.out.println(m);
+                return m;
 	}
 //*******************************************************************+
         public void run() {

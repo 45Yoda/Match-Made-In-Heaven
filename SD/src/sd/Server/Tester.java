@@ -23,7 +23,7 @@ public class Tester {
 
         Thread[] threads = new Thread[10];
         for(int i=0;i<10;i++) {
-            threads[i]= new User(Integer.toString(i),Integer.toString(i),5,lobbys);
+            threads[i]=new User(Integer.toString(i),Integer.toString(i),5,lobbys);
             threads[i].start();
         }
         
