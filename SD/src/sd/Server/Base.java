@@ -23,9 +23,9 @@ public class Base extends Thread{
     private BufferedReader in;
     private Matching match;
     private Thread notificator;
-} /*       
-    Base(Matching aucHouse, Socket cliSocket) throws IOException {
-		this.match = aucHouse;
+}      
+    Base(Matching m, Socket cliSocket) throws IOException {
+		this.match = m;
 		this.cliSocket = cliSocket;
 		in = new BufferedReader(new InputStreamReader(cliSocket.getInputStream()));
 		out = new PrintWriter(cliSocket.getOutputStream(), true);
@@ -162,4 +162,3 @@ public class Base extends Thread{
 
 
 }
-*/

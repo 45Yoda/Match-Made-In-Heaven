@@ -1,6 +1,8 @@
 package sd.Server;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.locks.*;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 
 public class Lobby {
@@ -37,31 +39,30 @@ public class Lobby {
         public void gereUser(User user) throws InterruptedException{
             espera(user);
             distribuiEquipa(user);
-            synchronized (this) { //espera que check todos os users
+            synchronized (this) { //espera que equipas estejam distribuidas
+                if (equipaA.getJog()==5 && equipaB.getJog()==5) notifyAll();
                 while(equipaA.getJog()!=5 && equipaB.getJog()!=5) 
                     wait();
                 //if(user.getEquipa()==0) equipaA.escolhaHeroi(user);
                 //else equipaB.escolhaHeroi(user);
-                if (user.getHeroi()==null) ready++;
-                //System.out.println(ready);
+                if (user.getHeroi()==null) ready++; //(!) mudar para diferente de null quando houver herois
                 jog++;
-                while(jog<20)
+                while(jog<20) //espera que check todos os users
                     wait();
                 notifyAll();
             }
             if (ready==10) {
             //apresentar escolhas de user
             jogar(user);
-            synchronized (this) { //espera que check todos os users
-                ready--;
-                while(ready!=0)
-                    wait();
-                notifyAll();
-            }
             //apresentar resultados
+            if (getEquipaA().getPontuacao()>getEquipaB().getPontuacao())
+                                System.out.println("Equipa A Win");
+                        else if (getEquipaA().getPontuacao()<getEquipaB().getPontuacao()) System.out.println("Equipa B Win");
+                        else System.out.println("Empate");
             atualizaRes(user);
             resetLobby(user);
-            } else {
+
+            }else {
                 //dizer que jogo interrompido
                 resetLobby(user);
             }
@@ -78,14 +79,18 @@ public class Lobby {
         
         public synchronized void resetLobby(User user) throws InterruptedException{
             user.reset();
-            this.jog--;
-            if (jog==10) {
+            this.jog++;
+            if ((ready==10 && jog==40)||ready<0 && jog==30) { //ultima thread dá reset ao lobby
+                lock.lock();
+		try {
             this.jog=0;
             this.rankAdj=-1;
             this.equipaA.reset();
             this.equipaB.reset();
-            notFull.signal();
             this.ready=0;
+            notFull.signalAll();
+                }
+                finally{lock.unlock();}
             }
         }
         
@@ -111,10 +116,16 @@ public class Lobby {
             if (user.getEquipa()==0)
                 equipaA.score(pont);
             else equipaB.score(pont);
+            jog++;
+                while(jog<30) //espera que todos os users joguem
+                    wait();
+                notifyAll();
+            
+            
             }
         
         public synchronized void atualizaRes(User user) throws InterruptedException{
-            
+            int rank=user.getRank();
             if (user.getEquipa()==0) {
                 if (equipaA.getPontuacao()>equipaB.getPontuacao()) user.registaJogo(1);
                 else user.registaJogo(0);
@@ -123,8 +134,12 @@ public class Lobby {
                 else user.registaJogo(1);
                 
             }
-            
+            if (rank<user.getRank()) {} //notificar sobre subida de rank
+            else if (rank>user.getRank()) {}//notificar sobre descida de rank 
         }
         
+        public void waiting() throws InterruptedException{
+                notFull.await();
+        }
         
         }

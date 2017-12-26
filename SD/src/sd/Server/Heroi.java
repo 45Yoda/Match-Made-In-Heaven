@@ -29,11 +29,16 @@ public class Heroi {
         this.usage=false;
     }
     
-    public void selecionar(User user) {
+    public int selecionar(User user) {
         lock.lock();
         try{
+            int h=0;
+            if (usage==false) {
             usage=true;
             user.setHeroi(this);
+            h=1;
+            }
+            return h;
         } 
         finally {lock.unlock();}
     }

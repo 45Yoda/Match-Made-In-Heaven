@@ -4,6 +4,8 @@ import java.net.Socket;
 import java.io.IOException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Condition;
+
 
 public class User extends Thread implements Comparable<User> {
     private String username;
@@ -33,6 +35,8 @@ public class User extends Thread implements Comparable<User> {
     
     public void reset() {
         this.equipa=-1;
+        //this.heroi.libertar(); //nao há herois
+        this.heroi=null;
     }
     /*
     public void User1(String username,String password,int rank,Lobby[] lobbys) {
@@ -92,6 +96,8 @@ public class User extends Thread implements Comparable<User> {
     public int getRank() {return this.rank;}
     public String getUsername() {return this.username;}
     public int getEquipa() {return equipa;}
+    public int getJogos() {return jogos;}
+    public int getWin() {return win;}
     
     public void setEquipa(int e) {
         this.equipa=e;
@@ -99,7 +105,7 @@ public class User extends Thread implements Comparable<User> {
     public void registaJogo(int res) {
         this.jogos++;
         if (res==1) this.win++;
-        if (this.jogos>=10) this.rank = (this.win/this.rank)-1;
+        if (this.jogos>=10) this.rank = ((this.win*10/this.jogos)-1);
     }
 
     public String toString(){
@@ -126,14 +132,13 @@ public class User extends Thread implements Comparable<User> {
 			int rank = user.getRank();
                         int best = bestLobby(rank);
                         while(best==-1){
-                            lobbys[rank].notFull.await();
+                            while(lobbys[rank].getJog()!=0){
+                                lobbys[rank].notFull.await();
+                            }
                             best = bestLobby(rank);
                         }
                         lobbys[best].gereUser(user);
-                        if (lobbys[best].getEquipaA().getPontuacao()>lobbys[best].getEquipaB().getPontuacao())
-                                System.out.println("Equipa A Win");
-                        else System.out.println("Equipa B Win");
-                        }
+                }
 		finally {lock.unlock();}
 	}
 

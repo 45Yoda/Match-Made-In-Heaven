@@ -34,7 +34,6 @@ public class Equipa {
             try{
                 this.ranks[this.jog]=user.getRank();
                 this.jog++;
-                if (jog==5) notifyAll();
             }finally{lock.unlock();}
        }
         
@@ -81,12 +80,9 @@ public class Equipa {
         public void escolhaHeroi(User user) {
             while(user.getHeroi()==null) { //tempo(?)
                 int i=0;//guardar nr de heroi escolhido
-                if (herois.get(i).ocupado()) {
-                    //mensagem de heroi ocupado
-                }
-                else {
-                    herois.get(i).selecionar(user);
-                }
+                int h = herois.get(i).selecionar(user);
+                if (h==1) System.out.println("heroi escolhido");
+                else System.out.println("heroi ocupado");
             }
         }
         
