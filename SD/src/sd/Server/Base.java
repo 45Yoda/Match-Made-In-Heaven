@@ -23,7 +23,7 @@ public class Base extends Thread{
     private BufferedReader in;
     private Matching match;
     private Thread notificator;
-}      
+      
     Base(Matching m, Socket cliSocket) throws IOException {
 		this.match = m;
 		this.cliSocket = cliSocket;
