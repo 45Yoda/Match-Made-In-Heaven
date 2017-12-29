@@ -3,7 +3,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-
+import java.util.List;
+import java.util.ArrayList;
 
 public class Lobby {
 	private static int tam=10;
@@ -15,7 +16,8 @@ public class Lobby {
         private int ready;
         Lock lock;
         Condition notFull;
-
+        private List<String> notificacoes;
+        
 	public Lobby(int rank) {
 		this.jog = 0;
 		this.rank=rank;
@@ -25,6 +27,7 @@ public class Lobby {
 		equipaB = new Equipa();
                 lock = new ReentrantLock();
                 notFull = lock.newCondition();
+                notificacoes = new ArrayList<>();
 	}
 
 
@@ -34,7 +37,7 @@ public class Lobby {
 	public int getRankAdj() {return this.rankAdj;}
         public Equipa getEquipaA() {return this.equipaA;}
         public Equipa getEquipaB() {return this.equipaB;}
-        
+        public List<String> getNot() {return this.notificacoes;}
         
         public void gereUser(User user) throws InterruptedException{
             espera(user);
@@ -43,27 +46,29 @@ public class Lobby {
                 if (equipaA.getJog()==5 && equipaB.getJog()==5) notifyAll();
                 while(equipaA.getJog()!=5 && equipaB.getJog()!=5) 
                     wait();
-                //if(user.getEquipa()==0) equipaA.escolhaHeroi(user);
-                //else equipaB.escolhaHeroi(user);
-                if (user.getHeroi()==null) ready++; //(!) mudar para diferente de null quando houver herois
+                if(user.getEquipa()==0) equipaA.escolhaHeroi(user);
+                else equipaB.escolhaHeroi(user);
+                if (user.getHeroi()!=null) ready++; 
                 jog++;
                 while(jog<20) //espera que check todos os users
                     wait();
                 notifyAll();
             }
             if (ready==10) {
-            //apresentar escolhas de user
+            notConst(user);
             jogar(user);
-            //apresentar resultados
-            if (getEquipaA().getPontuacao()>getEquipaB().getPontuacao())
-                                System.out.println("Equipa A Win");
-                        else if (getEquipaA().getPontuacao()<getEquipaB().getPontuacao()) System.out.println("Equipa B Win");
-                        else System.out.println("Empate");
+            if (getEquipaA().getPontuacao()>getEquipaB().getPontuacao()) {
+                if (user.getEquipa()==0) user.getBuffer().write("Venceste o Jogo!");
+                else user.getBuffer().write("Perdeste o jogo.");
+            }
+                else if (user.getEquipa()==1) user.getBuffer().write("Venceste o Jogo!");
+                else user.getBuffer().write("Perdeste o jogo.");
             atualizaRes(user);
             resetLobby(user);
 
+
             }else {
-                //dizer que jogo interrompido
+                user.getBuffer().write("Jogo interrompido. Dados insuficientes para inicio de jogo.");
                 resetLobby(user);
             }
         }
@@ -88,6 +93,7 @@ public class Lobby {
             this.equipaA.reset();
             this.equipaB.reset();
             this.ready=0;
+            this.notificacoes.clear();
             notFull.signalAll();
                 }
                 finally{lock.unlock();}
@@ -111,8 +117,11 @@ public class Lobby {
         }
         
         public synchronized void jogar(User user) throws InterruptedException{
-            
+            String eq = null;
+            if (user.getEquipa()==0) eq="A";
+            else eq="B";
             int pont = ThreadLocalRandom.current().nextInt(0,10+1);
+            notificacoes.add("Equipa "+eq+": " +user.getUsername()+" ----> "+user.getHeroi().getNome()+": "+pont+" pontos.");
             if (user.getEquipa()==0)
                 equipaA.score(pont);
             else equipaB.score(pont);
@@ -120,9 +129,22 @@ public class Lobby {
                 while(jog<30) //espera que todos os users joguem
                     wait();
                 notifyAll();
-            
-            
+            for(int i=10;i<20;i++)
+                user.getBuffer().write(notificacoes.get(i));
             }
+        
+        //notificaçoes da constituição das equipas
+        public synchronized void notConst(User user) throws InterruptedException{
+            String eq = null;
+            if (user.getEquipa()==0) eq="A";
+            else eq="B";
+            notificacoes.add("Equipa "+eq+": " +user.getUsername()+" ----> "+user.getHeroi().getNome());
+            while(notificacoes.size()!=10)
+                wait();
+            notifyAll();
+            for(int i=0;i<10;i++)
+                user.getBuffer().write(notificacoes.get(i));
+        }
         
         public synchronized void atualizaRes(User user) throws InterruptedException{
             int rank=user.getRank();
@@ -134,12 +156,8 @@ public class Lobby {
                 else user.registaJogo(1);
                 
             }
-            if (rank<user.getRank()) {} //notificar sobre subida de rank
-            else if (rank>user.getRank()) {}//notificar sobre descida de rank 
-        }
-        
-        public void waiting() throws InterruptedException{
-                notFull.await();
+            if (rank<user.getRank()) {user.getBuffer().write("Parabéns, subiste de rank!");}
+            else if (rank>user.getRank()) {user.getBuffer().write("Parece que este jogo correu mal, infelizmente desceste de rank");} 
         }
         
         }

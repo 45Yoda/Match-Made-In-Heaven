@@ -29,6 +29,9 @@ public class Heroi {
         this.usage=false;
     }
     
+    public String getNome() {return this.nome;}
+    public boolean getUse() {return this.usage;}
+    
     public int selecionar(User user) {
         lock.lock();
         try{
