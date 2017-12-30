@@ -61,6 +61,7 @@ public class User extends Thread implements Comparable<User> {
     }
     
     public Heroi getHeroi() {return this.heroi;}
+    public NotificationBuffer getBuffer() {return this.buffer;}
     public void setHeroi(Heroi h) {this.heroi=h;}
     public int compareTo(User u){
         return username.compareTo(u.username);

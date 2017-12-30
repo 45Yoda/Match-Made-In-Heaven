@@ -29,6 +29,9 @@ public class Heroi {
         this.usage=false;
     }
     
+    public String getNome() {return this.nome;}
+    public boolean getUse() {return this.usage;}
+    
     public int selecionar(User user) {
         lock.lock();
         try{
@@ -36,8 +39,10 @@ public class Heroi {
             if (usage==false) {
             usage=true;
             user.setHeroi(this);
+            user.getBuffer().write("Heroi escolhido com sucesso!");
             h=1;
             }
+            else user.getBuffer().write("Heroi já escolhido");
             return h;
         } 
         finally {lock.unlock();}
