@@ -14,11 +14,17 @@ public class Stub extends Thread{
     private ReentrantLock lock;
     private Condition c;
     
-    Stub(Socket cliSocket) throws IOException {
-	this.cliSocket = cliSocket;
-
-	out = new PrintWriter(cliSocket.getOutputStream(), true);
-	menu = new Menu();
+    Stub(Socket cliSocket, ReentrantLock l, Condition c) {
+	try{
+            this.cliSocket = cliSocket;
+            this.out = new PrintWriter(cliSocket.getOutputStream(), true);
+            this.menu = new Menu();
+            this.lock = l;
+            this.c = c;
+        }
+        catch(IOException e){
+            System.out.println(e.getMessage());
+        }
     }
 
     public void run() {
@@ -62,7 +68,6 @@ public class Stub extends Thread{
         this.lock.lock();
 	c.await();
         this.lock.unlock();
-	menu.setOp(1);
     }
 
     private void login() {

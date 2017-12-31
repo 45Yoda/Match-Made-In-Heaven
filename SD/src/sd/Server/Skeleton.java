@@ -65,10 +65,10 @@ public class Skeleton extends Thread{
 				userMustBeLogged(false);
 				return login(keywords[1]);
 			case "JOGAR":
-                userMustBeLogged(true);
-                return play();
-            default:
-				throw new RequestFailedException(keywords[0] + " não é um comando válido");
+                                userMustBeLogged(true);
+                                return play();
+                        default:
+                        throw new RequestFailedException(keywords[0] + " não é um comando válido");
 		}
 	}
     
@@ -84,7 +84,7 @@ public class Skeleton extends Thread{
 			throw new RequestFailedException(e.getMessage());
 		}
 
-		return "OK";
+		return "Registo efectuado com sucesso";
 	}
         
     private String login(String arguments)throws RequestFailedException{
@@ -99,7 +99,7 @@ public class Skeleton extends Thread{
 	} catch (NoAuthorizationException e) {
 		throw new RequestFailedException(e.getMessage());
 	}
-        return "OK";
+        return "Sessão iniciada com sucesso.";
     }
     
     private void userMustBeLogged(boolean status) throws RequestFailedException {
@@ -116,7 +116,7 @@ public class Skeleton extends Thread{
         }catch(InterruptedException e){
             throw new RequestFailedException("Não foi possivel encontrar um jogo");
         }
-        return "";
+        return "Jogo encontrado";
     }
     
     private void endConnection() {
