@@ -39,14 +39,16 @@ public class Stub extends Thread{
                 if(op >= 1 && op <= 3){
                     space();
                     menu.showMenu();
+                }else{
+                    System.out.println("Opção inválida.\n");
                 }
                 
             }
         cliSocket.shutdownOutput();    
         }
         catch(Exception e){
-			System.out.println(e.getMessage());
-		}
+            System.out.println(e.getMessage());
+	}
 
     }
 
@@ -77,6 +79,8 @@ public class Stub extends Thread{
         out.println(query);
         
     }
+    
+   // private void selectHero(){}
     
     private void space(){
 		for(int i = 0;i<40;i++)
