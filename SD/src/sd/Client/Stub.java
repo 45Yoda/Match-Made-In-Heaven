@@ -41,7 +41,7 @@ public class Stub extends Thread{
                     if(op == 3) break;
                 }else if(menu.getOp() == 0){
                     if(op == 1) play();
-                    //if(op == 2) selectHero();
+                    if(op == 2) viewStats();
                     if(op == 3) break;
                 }
                 if(op >= 1 && op <= 3){
@@ -87,7 +87,10 @@ public class Stub extends Thread{
         
     }
     
-   // private void selectHero(){}
+    private void viewStats(){
+      String query = "STATS"; 
+      out.println(query);
+    }
     
     private void space(){
 		for(int i = 0;i<40;i++)

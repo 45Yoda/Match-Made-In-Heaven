@@ -16,13 +16,13 @@ public class HeavenMatch {
         Condition cond = lock.newCondition();	
         try{
             Socket cli = new Socket("localhost", port);
-            //Reader reader = new Reader(cli, lock , cond );
+            Reader reader = new Reader(cli, lock , cond );
             Stub stub = new Stub( cli, lock , cond );
 
-            //reader.start();
+            reader.start();
             stub.start(); 
                 
-            //reader.join();
+            reader.join();
             stub.join();
             
             System.out.println("Até uma próxima!\n");

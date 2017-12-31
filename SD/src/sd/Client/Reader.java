@@ -21,8 +21,10 @@ public class Reader extends Thread{
     
     public void run(){
         String line;
+        String[] response;
         try{
-            while((line = socketReader.readLine())!= null){
+            while((line = socketReader.readLine())!= null ){
+                response = line.split(" "); 
                 if(line.equals("Sessão iniciada com sucesso")){
                     System.out.println(line);
                     menu.setOp(1);
@@ -35,7 +37,19 @@ public class Reader extends Thread{
                     this.lock.lock();
                     cond.signal();
                     this.lock.unlock();
-                }//ainda tem mais cenas
+                }else if(line.equals("Jogo Encontrado")){
+                    //Para escolher heroi depois de encontrado o jogo é necessário meter cenas aqui
+                    System.out.println(line);
+                    menu.setOp(0);
+                    this.lock.lock();
+                    cond.signal();
+                    this.lock.unlock();
+                }else if(response[0]=="Stats"){
+                    System.out.println(line);
+                    this.lock.lock();
+                    cond.signal();
+                    this.lock.unlock();
+                }
                 
             }
         }

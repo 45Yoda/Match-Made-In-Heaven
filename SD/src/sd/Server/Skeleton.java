@@ -67,6 +67,9 @@ public class Skeleton extends Thread{
 			case "JOGAR":
                                 userMustBeLogged(true);
                                 return play();
+                        case "STATS":
+                                userMustBeLogged(true);
+                                return viewStats();
                         default:
                         throw new RequestFailedException(keywords[0] + " não é um comando válido");
 		}
@@ -127,6 +130,15 @@ public class Skeleton extends Thread{
 			System.out.println("Couldn't close client socket");
 		}
 	}
+    
+    private String viewStats(){
+        String response = "Stats " + user.getUsername() +
+                          " Played: "+ user.getJogos()+
+                          " + Wins : " + user.getWin() +
+                          " Rank " + user.getRank() ;
+        
+        return response;
+    }
     
     private String readLine() {
 		String line = null;
