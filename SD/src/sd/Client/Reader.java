@@ -1,3 +1,5 @@
+package sd.Client;
+
 import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.locks.Condition;

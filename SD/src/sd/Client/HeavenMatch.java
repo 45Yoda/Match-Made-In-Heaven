@@ -1,3 +1,6 @@
+
+package sd.Client;
+
 import java.net.Socket;
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -28,9 +31,6 @@ public class HeavenMatch {
         catch(IOException e){
             System.out.println(e.getMessage());
         }
-        catch(InterruptedException e){
-            System.out.println(e.getMessage());
-        }    
     }
    
 }

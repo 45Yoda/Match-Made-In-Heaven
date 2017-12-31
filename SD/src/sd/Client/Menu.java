@@ -23,7 +23,7 @@ import java.util.Scanner;
                     break;
             case 1: System.out.println("************* LOGGED **************\n"+
                                        "* 1 - Procurar Jogo               *\n"+
-                                       "* 2 - Escolher Herói              *\n"+
+                                       "* 2 - Ver Stats                      *\n"+
                                        "* 0 - Terminar Sessao             *\n"+
                                        "***********************************\n");
                     break;

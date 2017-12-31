@@ -1,4 +1,6 @@
 
+package sd.Client;
+
 import java.net.Socket;
 import java.io.PrintWriter;
 import java.io.IOException;
