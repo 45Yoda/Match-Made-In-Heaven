@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package sd.Client;
 
 import java.util.Scanner;
@@ -44,4 +45,18 @@ import java.util.Scanner;
 
             return num;
         }
+=======
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author Rui_vieira
+ */
+public class Menu {
+    
+>>>>>>> dbf99520f89b8a5d6221f9bf64a2045e9e3e0b61
 }
