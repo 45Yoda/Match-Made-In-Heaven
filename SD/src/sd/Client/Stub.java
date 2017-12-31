@@ -1,85 +1,66 @@
+
 import java.net.Socket;
 import java.io.PrintWriter;
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
+import sd.Client.Menu;
 
 public class Stub extends Thread{
     private Socket cliSocket;
-    private ClientStatus client;
     private PrintWriter out;
     private Menu menu;
-    private String[] initialMenu;
-    private String[] sessionMenu;
-
-    Stub(Socket cliSocket, ClientStatus client) throws IOException {
+    private ReentrantLock lock;
+    private Condition c;
+    
+    Stub(Socket cliSocket) throws IOException {
 	this.cliSocket = cliSocket;
-	this.client = client;
 
 	out = new PrintWriter(cliSocket.getOutputStream(), true);
 	menu = new Menu();
-	setUpMenus();
     }
 
     public void run() {
-	int option;
-
-	while((option = showMenu()) != -1) {
-            client.setCommand(option);
-            runCommand(option);
-            }
-
-	System.out.println("\nLigação terminada!");
-	System.exit(0);
-	}
-
-    private int showMenu() {
-        int option = 0;
-
-	try {
-            if (!client.isLogged())
-		option = menu.show(initialMenu);
-            else {
-		sessionMenu[0] = "1) Ler notificações " + "(" + client.getNumberOfNotifications() + ")";
-		option = menu.show(sessionMenu) + 2;
+	int op;
+        String inputGeter = "> Escolha uma das opções: \n";
+        try{
+            menu.showMenu();
+            while((op= menu.readInt(inputGeter))!= -1){
+                if(menu.getOp() == 0){
+                    if(op == 1) login();
+                    if(op == 2) signup();
+                    if(op == 3) break;
+                }else if(menu.getOp() == 0){
+                    if(op == 1) play();
+                    //if(op == 2) selectHero();
+                    if(op == 3) break;
                 }
-        } catch (NoSuchElementException e) {
-            return -1;
+                if(op >= 1 && op <= 3){
+                    space();
+                    menu.showMenu();
+                }
+                
             }
+        cliSocket.shutdownOutput();    
+        }
+        catch(Exception e){
+			System.out.println(e.getMessage());
+		}
 
-	return option;
-	}
+    }
 
-    private void runCommand(int option) {
-	switch(option) {
-            case 1: signup();
-                    break;
-            case 2: login();
-                    break;
-            case 3: readNotifications();
-                    break;
-            case 4: play();
-                    break;
-           // case 5: SelectHero();
-           //         break;
-            }
-	}
-
-    private void signup() {
+// Adaptar tudo que está para baixo
+    private void signup() throws InterruptedException {
 	String username = menu.readString("Username: ");
 	String password = menu.readString("Password: ");
 	String query = String.join(" ", "REGISTAR", username, password);
 
 	out.println(query);
-	String response = client.getResponse();
-
-	if (client.getReplyStatus()) {
-            query = String.join(" ", "LOGIN", username, password);
-            out.println(query);
-            response = client.getResponse();
-            client.setLogged(true);
-            }
-
-	menu.printResponse(response);
+        this.lock.lock();
+	c.await();
+        this.lock.unlock();
+	menu.setOp(1);
     }
 
     private void login() {
@@ -88,50 +69,18 @@ public class Stub extends Thread{
 	String query = String.join(" ", "LOGIN", username, password);
 
 	out.println(query);
-	String response = client.getResponse();
-
-	if (client.getReplyStatus())
-            client.setLogged(true);
-
-	menu.printResponse(response);
     }
 
-    private void readNotifications() {
-	int amountNotifications;
-	String notifications;
-
-	synchronized (client) {
-            amountNotifications = client.getNumberOfNotifications();
-            notifications = client.getNotifications();
-	}
-
-	if (amountNotifications == 0)
-            notifications = "> Não há novas notificações!\n";
-	else
-            out.println("CONFIRMAR " + amountNotifications);
-
-	menu.printResponse(notifications);
-	}
     
     private void play(){
         String query = "JOGAR";
-        
         out.println(query);
-        String response = client.getResponse();
-        menu.printResponse(response);
+        
     }
+    
+    private void space(){
+		for(int i = 0;i<40;i++)
+			System.out.println();
+	}
 
-	
-
-    private void setUpMenus() {
-	initialMenu = new String[2];
-	sessionMenu = new String[2];
-
-	initialMenu[0] = "1) Registar";
-	initialMenu[1] = "2) Iniciar Sessão";
-
-	sessionMenu[1] = "2) Jogar";
-	//sessionMenu[2] = "3) Escolher Heroi"; 
-	
-    }
 }

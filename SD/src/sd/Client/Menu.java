@@ -1,26 +1,43 @@
-<<<<<<< HEAD
+
 package sd.Client;
 
 import java.util.Scanner;
 
     public class Menu {
         private Scanner in;
+        private int op;
 
-        Menu() {
+        public Menu() {
             in = new Scanner(System.in);
             in.useDelimiter("[\r\n]");
+            op = 0;
         }
 
-        public int show(String[] entries) {
-            int option = 0;
-
-            //TODO:
-           //apresentar menu
-
-
-            return option;
+        public void showMenu() {
+        switch(op){
+            case 0: System.out.println("************* MENU ****************\n"+
+                                       "* 1 - Iniciar Sessao              *\n"+
+                                       "* 2 - Registar                    *\n"+
+                                       "* 0 - Sair                        *\n"+
+                                       "***********************************\n");
+                    break;
+            case 1: System.out.println("************* LOGGED **************\n"+
+                                       "* 1 - Procurar Jogo               *\n"+
+                                       "* 2 - Escolher Herói              *\n"+
+                                       "* 0 - Terminar Sessao             *\n"+
+                                       "***********************************\n");
+                    break;
         }
+    }
 
+        public int getOp(){
+            return this.op;
+        }
+        
+        public void setOp(int op){
+            this.op = op;
+        }
+        
         public void printResponse(String response) {
             if (response.length() > 0)
                 response += "\n";
@@ -46,18 +63,4 @@ import java.util.Scanner;
 
             return num;
         }
-=======
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author Rui_vieira
- */
-public class Menu {
-    
->>>>>>> dbf99520f89b8a5d6221f9bf64a2045e9e3e0b61
-}
+    }        
