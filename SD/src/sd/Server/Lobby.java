@@ -46,9 +46,9 @@ public class Lobby {
                 if (equipaA.getJog()==5 && equipaB.getJog()==5) notifyAll();
                 while(equipaA.getJog()!=5 && equipaB.getJog()!=5) 
                     wait();
-                if(user.getEquipa()==0) equipaA.escolhaHeroi(user);
-                else equipaB.escolhaHeroi(user);
-                if (user.getHeroi()!=null) ready++; 
+               // if(user.getEquipa()==0) equipaA.escolhaHeroi(user);
+                //else equipaB.escolhaHeroi(user);
+                if (user.getHeroi()==null) ready++; 
                 jog++;
                 while(jog<20) //espera que check todos os users
                     wait();
@@ -57,18 +57,11 @@ public class Lobby {
             if (ready==10) {
             notConst(user);
             jogar(user);
-            if (getEquipaA().getPontuacao()>getEquipaB().getPontuacao()) {
-                if (user.getEquipa()==0) user.getBuffer().write("Venceste o Jogo!");
-                else user.getBuffer().write("Perdeste o jogo.");
-            }
-                else if (user.getEquipa()==1) user.getBuffer().write("Venceste o Jogo!");
-                else user.getBuffer().write("Perdeste o jogo.");
             atualizaRes(user);
             resetLobby(user);
 
 
             }else {
-                user.getBuffer().write("Jogo interrompido. Dados insuficientes para inicio de jogo.");
                 resetLobby(user);
             }
         }
@@ -129,8 +122,6 @@ public class Lobby {
                 while(jog<30) //espera que todos os users joguem
                     wait();
                 notifyAll();
-            for(int i=10;i<20;i++)
-                user.getBuffer().write(notificacoes.get(i));
             }
         
         //notificaçoes da constituição das equipas
@@ -142,8 +133,7 @@ public class Lobby {
             while(notificacoes.size()!=10)
                 wait();
             notifyAll();
-            for(int i=0;i<10;i++)
-                user.getBuffer().write(notificacoes.get(i));
+
         }
         
         public synchronized void atualizaRes(User user) throws InterruptedException{
@@ -156,8 +146,6 @@ public class Lobby {
                 else user.registaJogo(1);
                 
             }
-            if (rank<user.getRank()) {user.getBuffer().write("Parabéns, subiste de rank!");}
-            else if (rank>user.getRank()) {user.getBuffer().write("Parece que este jogo correu mal, infelizmente desceste de rank");} 
-        }
+            }
         
         }

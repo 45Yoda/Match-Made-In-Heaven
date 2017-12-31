@@ -23,7 +23,7 @@ import java.net.Socket;
 
 		while(true) {
 			Socket cliSocket = srv.accept();
-			Base cli = new Base(match , cliSocket);
+			Skeleton cli = new Skeleton(match , cliSocket);
 			cli.start();
 		}
 	}
