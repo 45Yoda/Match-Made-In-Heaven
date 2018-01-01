@@ -16,7 +16,7 @@ import java.util.Scanner;
         public void showMenu() {
         switch(op){
             case 0: System.out.println("************* MENU ****************\n"+
-                                       "* 1 - Iniciar Sessao              *\n"+
+                                                      "* 1 - Iniciar Sessao              *\n"+
                                        "* 2 - Registar                    *\n"+
                                        "* 0 - Sair                        *\n"+
                                        "***********************************\n");
