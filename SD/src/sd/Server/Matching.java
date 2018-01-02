@@ -24,11 +24,16 @@ public class Matching {
     
     Matching(){
         users = new TreeMap<>() ;
-        Lobby lobbys[] = null;
+        inicializarLobbys();
         userLock = new ReentrantLock();
         lobbyLock = new ReentrantLock();
         }
-    
+
+    private void inicializarLobbys() {
+        for(int i = 0;i<10;i++)
+            lobbys[i]=new Lobby(i);
+    }
+
     public void SignUp(String username, String password)throws UsernameExistsException{
         userLock.lock();
         try{
