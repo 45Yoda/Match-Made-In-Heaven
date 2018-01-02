@@ -34,11 +34,12 @@ public class Skeleton extends Thread{
     public void run() {
     	try{
     		String request;
-    		while((request = readSocket.readLine()) != null){
+            while((request = readSocket.readLine()) != null){
     			String response = null;
-    			response = interpretRequest(request);
+                response = interpretRequest(request);
 
     		if(!response.isEmpty())
+    		    this.writeSocket.println(response);
 				out.println(response + "\n");
     		}
 		}catch(Exception e){
@@ -50,7 +51,7 @@ public class Skeleton extends Thread{
 
     private String interpretRequest(String request){
         try {
-			return runCommand(request);
+            return runCommand(request);
 		} catch (RequestFailedException e) {
 			return "EXCEPTION\n" + e.getMessage();
 		} catch (IOException e) {
@@ -64,11 +65,11 @@ public class Skeleton extends Thread{
     private String runCommand(String request) throws RequestFailedException, IOException, NoAuthorizationException {
         String user,pass;
 
-		switch(request) {
-			case "Iniciar Sessao":
-				userMustBeLogged(false);
 
-				user = readSocket.readLine();
+		switch(request) {
+            case "Iniciar Sessao":
+				userMustBeLogged(false);
+                user = readSocket.readLine();
 				pass = readSocket.readLine();
 
                 return login(user,pass);
@@ -107,7 +108,7 @@ public class Skeleton extends Thread{
 		    throw new RequestFailedException(e.getMessage());
 	    }
 
-        return "Sessão iniciada com sucesso.";
+        return "Logged in!";
     }
 
 

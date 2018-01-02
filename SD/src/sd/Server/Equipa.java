@@ -22,7 +22,7 @@ public class Equipa {
          this.jog = 0;
          this.pontuacao = 0;
          this.lock= new ReentrantLock();
-         inicializarHeroes();
+         //inicializarHeroes();
     }
 
     public void inicializarHeroes() {

@@ -15,11 +15,11 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Writer extends Thread {
     private BufferedReader lerSocket;
-    private Menu2 menu;
+    private Menu menu;
     private ReentrantLock lock; 
     private Condition cond;
     
-    public Writer(BufferedReader socket, Menu2 menu, ReentrantLock l, Condition c){
+    public Writer(BufferedReader socket, Menu menu, ReentrantLock l, Condition c){
         this.lerSocket = socket;
         this.menu = menu;
         this.lock = l;
@@ -32,7 +32,7 @@ public class Writer extends Thread {
         
         try{       
                 while((inp = lerSocket.readLine()) != null){
-                    if(inp.equals("Sessão iniciada com sucesso.")){
+                    if(inp.equals("Logged in!")){
                         menu.setOp(1);
                         /*
                         this.lock.lock();

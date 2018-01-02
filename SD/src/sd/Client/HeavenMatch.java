@@ -10,7 +10,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 
-public class HeavenMatch2 {
+public class HeavenMatch {
     private static final int port = 5000;
     
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -23,15 +23,15 @@ public class HeavenMatch2 {
             cli = new Socket("localhost", port);
             
             BufferedReader lerSocket = new BufferedReader(new InputStreamReader(cli.getInputStream()));
-            Menu2 menu = new Menu2();
-            Reader2 rd2 = new Reader2(cli,menu,lock,cond);
+            Menu menu = new Menu();
+            Reader rd = new Reader(cli,menu,lock,cond);
             Writer w = new Writer(lerSocket,menu,lock,cond);
             
-            rd2.start();
+            rd.start();
             w.start();
 
                 
-            rd2.join();
+            rd.join();
             w.join();
             
             lerSocket.close();

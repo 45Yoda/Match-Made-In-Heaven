@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author yoda45
  */
-public class Menu2 {
+public class Menu {
     private String[] options;
     private int op;
     
@@ -28,6 +28,8 @@ public class Menu2 {
             case 0: carregaMenu(0);
                         break;
             case 1: carregaMenu(1);
+                        break;
+            case 2: carregaMenu(2);
                         break;
         
         }    
@@ -55,21 +57,45 @@ public class Menu2 {
                     "           * *                                                                                       * * ",
                     "           * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *",
                     "           * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *",
+                    "           * *                                                                                       * *",
                     "           * *                    1 - INICIAR SESSÃO                                                 * *",
                     "           * *                    2 - REGISTAR                                                       * *",
                     "           * *                                                                                       * *",              
                     "           * *                    0 - SAIR                                                           * *",
                     "           * *                                                                                       * *"
-           };
+            };
                 r = start;
                 break;
-            
-            case 1: String[] login ={
-                //TODO jogar,stats, sair
+
+            case 1: String[] loggedMenu = {
+                    "           * *                                                                                       * *  ",
+                    "           * *                    1 - PLAY!                                                          * *  ",
+                    "           * *                    2 - STATS                                                          * *  ",
+                    "           * *                                                                                       * *  ",
+                    "           * *                    0 - SAIR                                                           * *  ",
+                    "           * *                                                                                       * *  ",
+
             };
-                        r = login;
-                        break;
-                
+
+            case 2: String [] menuHerois = {
+                "           * 1-Andormeda                       11-Chamaeleon                      21-Hydra             *  ",
+                "           * 2-Apus                            12-Cancer                          22-Lemon             *  ",
+                "           * 3-Argo                            13-Coma                            23-Lupus             *  ",
+                "           * 4-Aries                           14-Crater                          24-Musca             *  ",
+                "           * 5-Bootes                          15-Crux                            25-Orion             *  ",
+                "           * 6-Camelopardalis                  16-Corvus                          26-Pavo              *  ",
+                "           * 7-Carina                          17-Delphinus                       27-Pegasus           *  ",
+                "           * 8-Cassiopeia                      18-Draco                           28-Pictor            *  ",
+                "           * 9-Centauros                       19-Fornax                          29-Reticulum         *  ",
+                "           * 10-Cetus                          20-Hercules                        30-Scrutum           *  ",
+            };
+                r = menuHerois;
+                break;
+
+
+
+            //TODO jogar,stats, sair
+
                 
         }
         
@@ -87,6 +113,7 @@ public class Menu2 {
 
 
     //TODO ver isto:
+    /*
     public void menuHeroi() {
         System.out.println("           * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  ");
         System.out.println("           * 1-Andormeda                       11-Chamaeleon                      21-Hydra             *  ");
@@ -100,7 +127,7 @@ public class Menu2 {
         System.out.println("           * 9-Centauros                       19-Fornax                          29-Reticulum         *  ");
         System.out.println("           * 10-Cetus                          20-Hercules                        30-Scrutum           *  ");
         System.out.println("           * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  ");
-    }
+    }*/
     
     public int getOp(){
         return this.op;
@@ -111,36 +138,5 @@ public class Menu2 {
     }
     
 }
-    
-    /*
 
-    public String readString(String msg){
-       String r = "";
-        
-        try{
-            System.out.println(msg);
-            r = lerTeclado.readLine();
-       
-        }catch(IOException e){
-           System.out.println(e.getMessage());
-       }
-       return r;
-    }
-    
-    public int readInt(String msg){
-        int num= 0;
-        try{
-            System.out.print(msg + "\n");
-            num = Integer.parseInt(lerTeclado.readLine());
-        }catch(NumberFormatException e){
-            System.out.println("\n> O valor introduzido não é válido!\n");
-            num = readInt(msg);
-        }catch(IOException e){
-            System.out.println(e.getMessage());
-        }
-        
-        return num;
-    }
-    
-  */  
 
