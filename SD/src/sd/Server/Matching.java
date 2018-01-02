@@ -5,6 +5,8 @@
  */
 package Server;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
@@ -71,7 +73,23 @@ public class Matching {
                 }
                 best = bestLobby(rank);
             }
-            lobbys[best].gereUser(user);
+            lobbys[best].espera(user);
+            lobbys[best].distribuiEquipa(user);
+            int r = lobbys[best].gereEquipa(user);
+            if (r==10) {
+                List<String> not = new ArrayList<>();
+                not.add("Constituiçao Equipas");
+                not.addAll(lobbys[best].notConst(user));
+                //enviar not para utilizador
+                List<String> not2 = new ArrayList<>();
+                not2.add("Resultados do Jogo");
+                not2.addAll(lobbys[best].jogar(user));
+                lobbys[best].atualizaRes(user);
+                lobbys[best].resetLobby(user);
+            }else {
+                lobbys[best].resetLobby(user);
+                //mensagem de jogo abortado
+            }
         }
         finally {lobbyLock.unlock();}
     }
