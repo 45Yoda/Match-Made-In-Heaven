@@ -5,6 +5,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Lobby {
 	private static int tam=10;
@@ -13,21 +14,21 @@ public class Lobby {
 	private int rank;
 	private Equipa equipaA;
 	private Equipa equipaB;
-        private int ready;
-        Lock lock;
-        Condition notFull;
-        private List<String> notificacoes;
+    private int ready;
+    Lock lock;
+    Condition notFull;
+    private List<String> notificacoes;
         
 	public Lobby(int rank) {
 		this.jog = 0;
 		this.rank=rank;
 		this.rankAdj=-1;
-                this.ready=0;
+        this.ready=0;
 		equipaA= new Equipa();
 		equipaB = new Equipa();
-                lock = new ReentrantLock();
-                notFull = lock.newCondition();
-                notificacoes = new ArrayList<>();
+        lock = new ReentrantLock();
+        notFull = lock.newCondition();
+        notificacoes = new ArrayList<>();
 	}
 
 
@@ -35,36 +36,25 @@ public class Lobby {
 	public int getJog() {return this.jog;}
 	public int getRank() {return this.rank;}
 	public int getRankAdj() {return this.rankAdj;}
-        public Equipa getEquipaA() {return this.equipaA;}
-        public Equipa getEquipaB() {return this.equipaB;}
-        public List<String> getNot() {return this.notificacoes;}
-        
-        public void gereUser(User user) throws InterruptedException{
-            espera(user);
-            distribuiEquipa(user);
-            synchronized (this) { //espera que equipas estejam distribuidas
-                if (equipaA.getJog()==5 && equipaB.getJog()==5) notifyAll();
-                while(equipaA.getJog()!=5 && equipaB.getJog()!=5) 
-                    wait();
-               // if(user.getEquipa()==0) equipaA.escolhaHeroi(user);
-                //else equipaB.escolhaHeroi(user);
-                if (user.getHeroi()==null) ready++; 
-                jog++;
-                while(jog<20) //espera que check todos os users
-                    wait();
-                notifyAll();
-            }
-            if (ready==10) {
-            notConst(user);
-            jogar(user);
-            atualizaRes(user);
-            resetLobby(user);
+    public Equipa getEquipaA() {return this.equipaA;}
+    public Equipa getEquipaB() {return this.equipaB;}
+    public List<String> getNot() {return this.notificacoes;}
 
 
-            }else {
-                resetLobby(user);
-            }
-        }
+    //espera que equipas estejam distribuidas e trata da escolha de herois
+    public synchronized int gereEquipa(User user) throws InterruptedException {
+        if (equipaA.getJog()==5 && equipaB.getJog()==5) notifyAll();
+        while(equipaA.getJog()!=5 && equipaB.getJog()!=5)
+            wait();
+        // if(user.getEquipa()==0) equipaA.escolhaHeroi(user);
+        //else equipaB.escolhaHeroi(user);
+        if (user.getHeroi()==null) ready++;
+        jog++;
+        while(jog<20) //espera que check todos os users
+            wait();
+        notifyAll();
+        return ready;
+    }
         
 	public synchronized void espera(User user) throws InterruptedException {
                if ( user.getRank()!=-1 && this.rank!=user.getRank()) rankAdj=user.getRank();
@@ -109,7 +99,7 @@ public class Lobby {
 		}
         }
         
-        public synchronized void jogar(User user) throws InterruptedException{
+        public synchronized List<String> jogar(User user) throws InterruptedException{
             String eq = null;
             if (user.getEquipa()==0) eq="A";
             else eq="B";
@@ -122,10 +112,14 @@ public class Lobby {
                 while(jog<30) //espera que todos os users joguem
                     wait();
                 notifyAll();
+            List<String> lista = new ArrayList<>();
+            for(int i=10;i<20;i++)
+                lista.add(notificacoes.get(i));
+            return lista;
             }
         
         //notificaçoes da constituição das equipas
-        public synchronized void notConst(User user) throws InterruptedException{
+        public synchronized List<String> notConst(User user) throws InterruptedException{
             String eq = null;
             if (user.getEquipa()==0) eq="A";
             else eq="B";
@@ -133,9 +127,9 @@ public class Lobby {
             while(notificacoes.size()!=10)
                 wait();
             notifyAll();
-
+            return notificacoes.stream().limit(10).collect(Collectors.<String>toList());
         }
-        
+
         public synchronized void atualizaRes(User user) throws InterruptedException{
             int rank=user.getRank();
             if (user.getEquipa()==0) {

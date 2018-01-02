@@ -27,6 +27,7 @@ public class Heroi {
     public Heroi(String n) {
         this.nome=n;
         this.usage=false;
+        this.lock= new ReentrantLock();
     }
     
     public String getNome() {return this.nome;}

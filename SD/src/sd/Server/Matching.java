@@ -5,6 +5,8 @@
  */
 package Server;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.locks.Lock;
@@ -22,11 +24,16 @@ public class Matching {
     
     Matching(){
         users = new TreeMap<>() ;
-        Lobby lobbys[] = null;
+        inicializarLobbys();
         userLock = new ReentrantLock();
         lobbyLock = new ReentrantLock();
         }
-    
+
+    private void inicializarLobbys() {
+        for(int i = 0;i<10;i++)
+            lobbys[i]=new Lobby(i);
+    }
+
     public void SignUp(String username, String password)throws UsernameExistsException{
         userLock.lock();
         try{
@@ -71,7 +78,24 @@ public class Matching {
                 }
                 best = bestLobby(rank);
             }
-            lobbys[best].gereUser(user);
+            lobbys[best].espera(user);
+            lobbys[best].distribuiEquipa(user);
+            int r = lobbys[best].gereEquipa(user);
+            if (r==10) {
+                List<String> not = new ArrayList<>();
+                not.add("Constituiçao Equipas");
+                not.addAll(lobbys[best].notConst(user));
+                //TODO enviar not para utilizador
+                List<String> not2 = new ArrayList<>();
+                not2.add("Resultados do Jogo");
+                not2.addAll(lobbys[best].jogar(user));
+                //TODO enviar not2 para utilizador
+                lobbys[best].atualizaRes(user);
+                lobbys[best].resetLobby(user);
+            }else {
+                lobbys[best].resetLobby(user);
+                //TODO mensagem de jogo abortado
+            }
         }
         finally {lobbyLock.unlock();}
     }
@@ -83,24 +107,19 @@ public class Matching {
         try {
             if (rank==-1) return ocup(0,4);
             else {
-                int min=-1,max=-1;
                 if (rank==0) {
-                    if (lobbys[1].getRankAdj()==0) {
-                        min=rank;
-                        max=rank+1;
+                    if (lobbys[1].getRankAdj()==0)
                         return ocup(0,1);
-                    }
                     else return 0;
                 }
                 else if (rank==9) {
                     if (lobbys[8].getRankAdj()==9) {
-                        min=rank-1;
-                        max=rank;
                         return ocup(8,9);
                     }
                     else return 9;
                 }
                 else {
+                    int min=-1,max=-1;
                     if (lobbys[rank-1].getRankAdj()==rank) min=rank-1;
                     else min=rank;
                     if (lobbys[rank+1].getRankAdj()==rank) min=rank+1;
