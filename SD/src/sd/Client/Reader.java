@@ -7,13 +7,13 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Reader extends Thread{
     private BufferedReader socketReader;
-    private Menu menu;
+    private Menu2 menu;
     private ReentrantLock lock; 
     private Condition cond;
     
     public Reader(Socket CliSocket, ReentrantLock l, Condition c) throws IOException{
         this.socketReader = new BufferedReader(new InputStreamReader(CliSocket.getInputStream()));;
-        this.menu = new Menu();
+        this.menu = new Menu2();
         this.lock = l;
         this.cond = c;
     }

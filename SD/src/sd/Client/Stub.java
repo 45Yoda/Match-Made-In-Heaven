@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 
 public class Stub extends Thread{
+/*
     private Socket cliSocket;
     private PrintWriter out;
     private Menu menu;
@@ -95,5 +96,5 @@ public class Stub extends Thread{
 		for(int i = 0;i<40;i++)
 			System.out.println();
 	}
-
+*/
 }
