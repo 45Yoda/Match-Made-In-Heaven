@@ -1,5 +1,5 @@
 
-package sd.Client;
+package Client;
 
 import java.util.Scanner;
 

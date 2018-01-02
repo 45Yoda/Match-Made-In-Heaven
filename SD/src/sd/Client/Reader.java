@@ -1,10 +1,9 @@
-package sd.Client;
+package Client;
 
 import java.io.*;
 import java.net.Socket;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import sd.Client.Menu;
 
 public class Reader extends Thread{
     private BufferedReader socketReader;

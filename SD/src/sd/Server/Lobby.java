@@ -1,4 +1,4 @@
-package sd.Server;
+package Server;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;

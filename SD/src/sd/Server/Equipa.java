@@ -1,4 +1,4 @@
-package sd.Server;
+package Server;
 
 import java.util.List;
 import java.util.ArrayList;

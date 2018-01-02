@@ -1,13 +1,12 @@
 
-package sd.Client;
+package Client;
 
 import java.net.Socket;
 import java.io.PrintWriter;
 import java.io.IOException;
-import java.util.NoSuchElementException;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import sd.Client.Menu;
+
 
 public class Stub extends Thread{
     private Socket cliSocket;

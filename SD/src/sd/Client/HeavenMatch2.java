@@ -1,5 +1,5 @@
 
-package sd.Client;
+package Client;
 
 import java.io.BufferedReader;
 import java.net.Socket;
@@ -10,7 +10,7 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
 
-public class HeavenMatch {
+public class HeavenMatch2 {
     private static final int port = 5000;
     
     public static void main(String[] args) throws IOException, InterruptedException {

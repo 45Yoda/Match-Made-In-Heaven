@@ -1,17 +1,16 @@
 
-package sd.Client;
+package Client;
 
-import java.io.BufferedReader;
+
 import java.net.Socket;
 import java.io.PrintWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.NoSuchElementException;
+
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
-import sd.Client.Menu;
 
-public class Stub extends Thread{
+
+public class Stub2 extends Thread{
     private Socket cliSocket;
     private String input;
     private PrintWriter out;
@@ -19,7 +18,7 @@ public class Stub extends Thread{
     private ReentrantLock lock;
     private Condition c;
     
-    Stub(Socket cliSocket, ReentrantLock l, Condition c) {
+    Stub2(Socket cliSocket, ReentrantLock l, Condition c) {
 	try{
             this.cliSocket = cliSocket;
             this.input = null;

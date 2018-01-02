@@ -1,4 +1,4 @@
-package sd.Server;
+package Server;
 
 import java.net.Socket;
 import java.io.IOException;
