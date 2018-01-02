@@ -17,6 +17,7 @@ public class User implements Comparable<User> {
     private int equipa;
     private Lock lock;
     private Heroi heroi;
+    private int lobby;
     
     public User(String username, String password,int rank){
         this.username = username;
@@ -27,12 +28,14 @@ public class User implements Comparable<User> {
         this.lock= new ReentrantLock();
         this.equipa=-1;
         this.heroi=null;
+        this.lobby=-1;
     }
     
     public void reset() {
         this.equipa=-1;
-        //this.heroi.libertar(); //nao há herois
+        this.heroi.libertar();
         this.heroi=null;
+        this.lobby=-1;
     }
 
     public void regUser(String username,String password){
@@ -43,6 +46,7 @@ public class User implements Comparable<User> {
         this.rank=-1;
         this.equipa=-1;
         this.heroi=null;
+        this.lobby=-1;
     }
     
     public Heroi getHeroi() {return this.heroi;}
@@ -67,7 +71,9 @@ public class User implements Comparable<User> {
     public int getEquipa() {return equipa;}
     public int getJogos() {return jogos;}
     public int getWin() {return win;}
-    
+    public int getLobby() {return this.lobby;}
+
+    public void setLobby(int l) {this.lobby=l;}
     public void setEquipa(int e) {
         this.equipa=e;
     }

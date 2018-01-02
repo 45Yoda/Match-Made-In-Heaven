@@ -14,7 +14,6 @@ public class Lobby {
 	private int rank;
 	private Equipa equipaA;
 	private Equipa equipaB;
-    private int ready;
     Lock lock;
     Condition notFull;
     private List<String> notificacoes;
@@ -23,7 +22,6 @@ public class Lobby {
 		this.jog = 0;
 		this.rank=rank;
 		this.rankAdj=-1;
-        this.ready=0;
 		equipaA= new Equipa();
 		equipaB = new Equipa();
         lock = new ReentrantLock();
@@ -42,19 +40,12 @@ public class Lobby {
 
 
     //espera que equipas estejam distribuidas e trata da escolha de herois
-    public synchronized int gereEquipa(User user) throws InterruptedException {
-        if (equipaA.getJog()==5 && equipaB.getJog()==5) notifyAll();
-        while(equipaA.getJog()!=5 && equipaB.getJog()!=5)
-            wait();
-        // if(user.getEquipa()==0) equipaA.escolhaHeroi(user);
-        //else equipaB.escolhaHeroi(user);
-        if (user.getHeroi()==null) ready++;
-        jog++;
-        while(jog<20) //espera que check todos os users
-            wait();
-        notifyAll();
-        return ready;
-    }
+    public synchronized int escolhaHerois(User user,int i) throws InterruptedException {
+        int r=-1;
+	    if(user.getEquipa()==0) r=equipaA.escolhaHeroi(user,i);
+        else r=equipaB.escolhaHeroi(user,i);
+        return r;
+	}
         
 	public synchronized void espera(User user) throws InterruptedException {
                if ( user.getRank()!=-1 && this.rank!=user.getRank()) rankAdj=user.getRank();
@@ -68,14 +59,13 @@ public class Lobby {
         public synchronized void resetLobby(User user) throws InterruptedException{
             user.reset();
             this.jog++;
-            if ((ready==10 && jog==40)||ready<0 && jog==30) { //ultima thread dá reset ao lobby
+            if (jog==20) { //ultima thread dá reset ao lobby
                 lock.lock();
 		try {
             this.jog=0;
             this.rankAdj=-1;
             this.equipaA.reset();
             this.equipaB.reset();
-            this.ready=0;
             this.notificacoes.clear();
             notFull.signalAll();
                 }
@@ -108,8 +98,7 @@ public class Lobby {
             if (user.getEquipa()==0)
                 equipaA.score(pont);
             else equipaB.score(pont);
-            jog++;
-                while(jog<30) //espera que todos os users joguem
+                while(notificacoes.size()!=20) //espera que todos os users joguem
                     wait();
                 notifyAll();
             List<String> lista = new ArrayList<>();
@@ -141,5 +130,5 @@ public class Lobby {
                 
             }
             }
-        
+
         }

@@ -111,14 +111,9 @@ public class Equipa {
             this.pontuacao = 0;
         }
 
-        public void escolhaHeroi(User user) {
-            //TODO escolha de heroi
-            while(user.getHeroi()==null) { //tempo(?)
-                int i=0;//guardar nr de heroi escolhido
-                int h = herois.get(i).selecionar(user);
-                if (h==1) System.out.println("heroi escolhido");
-                else System.out.println("heroi ocupado");
-            }
+        public int escolhaHeroi(User user,int i) {
+            int h = herois.get(i).selecionar(user);
+            return h;
         }
         
         
