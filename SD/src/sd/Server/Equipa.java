@@ -87,7 +87,7 @@ public class Equipa {
         }
     finally{lock.unlock();}
     }
-        
+
         public void score(int pont) {
             lock.lock();
             try{
@@ -95,7 +95,7 @@ public class Equipa {
             }
             finally{lock.unlock();}
         }
-        
+
         public int getPontuacao() {
             lock.lock();
             try {
@@ -103,14 +103,15 @@ public class Equipa {
             }
             finally{lock.unlock();}
         }
-        
+
         public void reset() {
             this.ranks = new int[5];
             this.jog = 0;
             this.pontuacao = 0;
         }
-        
+
         public void escolhaHeroi(User user) {
+            //TODO escolha de heroi
             while(user.getHeroi()==null) { //tempo(?)
                 int i=0;//guardar nr de heroi escolhido
                 int h = herois.get(i).selecionar(user);
