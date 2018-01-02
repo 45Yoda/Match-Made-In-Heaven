@@ -14,7 +14,7 @@ public class Stub2 extends Thread{
     private Socket cliSocket;
     private String input;
     private PrintWriter out;
-    //rivate MatchMIH menu;
+    private Menu2 menu;
     private ReentrantLock lock;
     private Condition c;
     
@@ -23,7 +23,7 @@ public class Stub2 extends Thread{
             this.cliSocket = cliSocket;
             this.input = null;
             this.out = new PrintWriter(cliSocket.getOutputStream(), true);
-         //   this.menu = new MatchMIH();
+            this.menu = new Menu2();
             this.lock = l;
             this.c = c;
         }
