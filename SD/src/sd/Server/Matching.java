@@ -98,16 +98,16 @@ public class Matching {
         List<String> string = new ArrayList<>();
         string.add("Constituicao Equipa");
         string.addAll(lobbys[user.getLobby()].notConst(user));
-        return String.join("|",string);
+        return String.join("-",string);
     }
 
 
-    public String jogo(User user) throws InterruptedException {
+    public String jogar(User user) throws InterruptedException {
         List<String> not = new ArrayList<>();
         int lobby = user.getLobby();
         not.add("Resultados do Jogo");
         not.addAll(lobbys[lobby].jogar(user));
-        return String.join("|",not);
+        return String.join("-",not);
     }
 
 
