@@ -50,7 +50,7 @@ public class Skeleton extends Thread{
 
 	}
 
-    private String interpretRequest(String request){
+    private String interpretRequest(String request) throws InterruptedException {
         try {
             return runCommand(request);
 		} catch (RequestFailedException e) {
@@ -63,7 +63,8 @@ public class Skeleton extends Thread{
         return "";
     }
     
-    private String runCommand(String request) throws RequestFailedException, IOException, NoAuthorizationException {
+
+    private String runCommand(String request) throws RequestFailedException, IOException, NoAuthorizationException, InterruptedException {
         String[] keywords = request.split("-",2);
         System.out.println(keywords[0]);
 
@@ -78,21 +79,21 @@ public class Skeleton extends Thread{
 
 				return signUp(keywords[1]);
 
-            /*
+
             case "Hero":
                 userMustBeLogged(true);
                 int hero = Integer.parseInt(keywords[1]);
-                return match.escolherHeroi(user, hero);*/
+                return match.escolherHeroi(this.user, hero);
 
-            /*
+
             case "Constituicao":
                 userMustBeLogged(true);
-                return match.constituicao();
+                return match.constituicao(this.user);
 
             case "realPlay":
                 userMustBeLogged(true);
-                return match.jogar();
-                */
+                return match.jogar(this.user);
+
 
 			case "Play":
                 userMustBeLogged(true);
@@ -169,11 +170,12 @@ public class Skeleton extends Thread{
 	}
     
     private String viewStats(){
-        String response = "Stats " + user.getUsername() +
+        String response = "Stats- " +
+                          " Nome: " +user.getUsername() +
                           " Played: "+ user.getJogos()+
-                          " + Wins : " + user.getWin() +
-                          " Rank " + user.getRank() ;
-        
+                          " Wins: " + user.getWin() +
+                          " Rank: " + user.getRank();
+
         return response;
     }
 

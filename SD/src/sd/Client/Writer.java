@@ -32,6 +32,7 @@ public class Writer extends Thread {
         
         try{       
                 while((inp = lerSocket.readLine()) != null){
+                    String[] q = inp.split("-");
                     if(inp.equals("Logged in!")){
                         menu.setOp(1);
 
@@ -45,8 +46,12 @@ public class Writer extends Thread {
                     }
                     if(inp.equals("Terminou sessão") || inp.equals("Username inexistente") || inp.equals("Password incorrecta")){
                         menu.setOp(0);
-
                     }
+
+                    if(q[0].equals("Stats")){
+                        System.out.println(q[1]);
+                    }
+
                 }
                 System.out.println("\n"+inp+"\n");
     
