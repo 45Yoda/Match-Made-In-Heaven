@@ -107,7 +107,12 @@ public class Reader extends Thread{
                         }
 
                     int h = Integer.parseInt(input);
-                    if (h>0 && h<31) escreverSocket.println("HERO-"+h);
+                    if (h>0 && h<31) {
+                        escreverSocket.println("HERO-"+h);
+                        lock.lock();
+                        c.await();
+                        lock.unlock();
+                    }
                 }
             
             }

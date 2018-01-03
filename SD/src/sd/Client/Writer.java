@@ -67,6 +67,14 @@ public class Writer extends Thread {
                         System.out.println(inp);
                         escreverSocket.println("CONSTITUICAO");
                     }
+                    if (inp.equals("Heroi ja escolhido")){
+                        System.out.println(inp);
+                        sleep(3);
+                        menu.setOp(2);
+                        this.lock.lock();
+                        cond.signal();
+                        this.lock.unlock();
+                    }
                     if(q[0].equals("Constituicao Equipa")){
                         for(int i=0;i<q.length;i++){
                             System.out.println(q[i]);
@@ -77,11 +85,11 @@ public class Writer extends Thread {
                         for(int i=0;i<q.length;i++){
                             System.out.println(q[i]);
                         }
-                        sleep(10);
+                        sleep(300);
                         menu.setOp(1);
-                        this.lock.lock();
+                        lock.lock();
                         cond.signal();
-                        this.lock.unlock();
+                        lock.unlock();
                     }
                     if(inp.equals("Heroi já escolhido")){
                         System.out.println(inp);

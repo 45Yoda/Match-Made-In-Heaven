@@ -89,7 +89,7 @@ public class Matching {
      public String escolherHeroi(User user, int h) throws InterruptedException {
         int a= lobbys[user.getLobby()].escolhaHerois(user,h);
         if (a==1) return "Heroi Selecionado";
-        else return "Heroi já escolhido";
+        else return "Heroi ja escolhido";
     }
 
     public String constituicao(User user) throws InterruptedException {
@@ -103,8 +103,9 @@ public class Matching {
     public String jogar(User user) throws InterruptedException {
         List<String> not = new ArrayList<>();
         int lobby = user.getLobby();
-        not.add("Resultados do Jogo");
+        not.add("Resultado do Jogo");
         not.addAll(lobbys[lobby].jogar(user));
+        System.out.println(not);
         return String.join("-",not);
     }
 
