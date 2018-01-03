@@ -67,37 +67,47 @@ public class Matching {
         return user;
     }
 
-    public void distribuirUser(User user) throws InterruptedException{
+    public String distribuirUser(User user) throws InterruptedException{
         lobbyLock.lock();
         try {
             int rank = user.getRank();
             int best = bestLobby(rank);
-            while(best==-1){
-                while(lobbys[rank].getJog()!=0){
+            while (best == -1) {
+                while (lobbys[rank].getJog() != 0) {
                     lobbys[rank].notFull.await();
                 }
                 best = bestLobby(rank);
             }
+            user.setLobby(best);
             lobbys[best].espera(user);
             lobbys[best].distribuiEquipa(user);
-            int r = lobbys[best].gereEquipa(user);
-            if (r==10) {
-                List<String> not = new ArrayList<>();
-                not.add("Constituiçao Equipas");
-                not.addAll(lobbys[best].notConst(user));
-                //TODO enviar not para utilizador
-                List<String> not2 = new ArrayList<>();
-                not2.add("Resultados do Jogo");
-                not2.addAll(lobbys[best].jogar(user));
-                //TODO enviar not2 para utilizador
-                lobbys[best].atualizaRes(user);
-                lobbys[best].resetLobby(user);
-            }else {
-                lobbys[best].resetLobby(user);
-                //TODO mensagem de jogo abortado
-            }
+            if (lobbys[best].getEquipaA().getJog()==5 && lobbys[best].getEquipaB().getJog()==5) notifyAll();
+            while(lobbys[best].getEquipaA().getJog()!=5 && lobbys[best].getEquipaB().getJog()!=5)
+                wait();
+            return "menu herois";
+        }finally {lobbyLock.unlock();}
         }
-        finally {lobbyLock.unlock();}
+
+     public String escolherHeroi(User user, int h) throws InterruptedException {
+        int a= lobbys[user.getLobby()].escolhaHerois(user,h);
+        if (a==1) return "Heroi Selecionado";
+        else return "Heroi já escolhido";
+    }
+
+    public String constituicao(User user) throws InterruptedException {
+        List<String> string = new ArrayList<>();
+        string.add("Constituicao Equipa");
+        string.addAll(lobbys[user.getLobby()].notConst(user));
+        return String.join("-",string);
+    }
+
+
+    public String jogar(User user) throws InterruptedException {
+        List<String> not = new ArrayList<>();
+        int lobby = user.getLobby();
+        not.add("Resultados do Jogo");
+        not.addAll(lobbys[lobby].jogar(user));
+        return String.join("-",not);
     }
 
 
