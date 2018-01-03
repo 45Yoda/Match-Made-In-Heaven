@@ -53,7 +53,6 @@ public class Writer extends Thread {
                     }
 
                     if(inp.equals("Jogo Encontrado")){
-                        System.out.println("BURROOO");
                         menu.setOp(2);
                         this.lock.lock();
                         cond.signal();

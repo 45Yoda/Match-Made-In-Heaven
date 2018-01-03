@@ -145,7 +145,7 @@ public class Matching {
     public int ocup(int min,int max) {
         int m=-1;
         for (int i = min;i<=max;i++)
-            if (lobbys[i].getJog()>m && lobbys[i].getJog()!=2) m=i;//TODO
+            if (lobbys[i].getJog()>m && lobbys[i].getJog()!=10) m=i;//10
         System.out.println("Lobby: " +m);
         return m;
     }

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 import static java.lang.Thread.sleep;
 
 public class Lobby {
-	private static int tam=2;//TODO
+	private static int tam=10;//2
 	private int jog;
 	private int rankAdj;
 	private int rank;
@@ -62,7 +62,7 @@ public class Lobby {
         public synchronized void resetLobby(User user) throws InterruptedException{
             user.reset();
             this.jog++;
-            if (jog==4) { //TODO ultima thread dá reset ao lobby
+            if (jog==20) { //ultima thread dá reset ao lobby 4*
                 lock.lock();
 		try {
             this.jog=0;
@@ -78,9 +78,9 @@ public class Lobby {
         
         public synchronized void distribuiEquipa(User user) throws InterruptedException {
             System.out.println("Distribuiçao");
-	    if (equipaA.getJog()==1) {//TODO
+	    if (equipaA.getJog()==5) {//1
                     user.setEquipa(1);equipaB.insere(user);
-                }else if (equipaB.getJog()==1) {
+                }else if (equipaB.getJog()==5) {
                     user.setEquipa(0);equipaA.insere(user);
                     }else if (equipaA.getMRank()>equipaB.getMRank()) {
 				if (user.getRank()>=equipaA.getMRank()) {
@@ -102,11 +102,11 @@ public class Lobby {
             if (user.getEquipa()==0)
                 equipaA.score(pont);
             else equipaB.score(pont);
-                while(notificacoes.size()!=4) //TODO espera que todos os users joguem
+                while(notificacoes.size()!=20) //4
                     wait();
                 notifyAll();
             List<String> lista = new ArrayList<>();
-            for(int i=2;i<4;i++) //TODO
+            for(int i=10;i<20;i++) //2 4
                 lista.add(notificacoes.get(i));
             if (equipaA.getPontuacao()>equipaB.getPontuacao()) lista.add("Equipa Vencedora: A!!!");
             else lista.add("Equipa Vencedora: B!!!");
@@ -124,10 +124,10 @@ public class Lobby {
             if (user.getEquipa()==0) eq="A";
             else eq="B";
             notificacoes.add("Equipa "+eq+" > " +"User: "+user.getUsername()+" Heroi: "+user.getHeroi().getNome());
-            while(notificacoes.size()!=2)//TODO
+            while(notificacoes.size()!=10)//2
                 wait();
             notifyAll();
-            return notificacoes.stream().limit(2).collect(Collectors.<String>toList());//TODO
+            return notificacoes.stream().limit(10).collect(Collectors.<String>toList());//10
         }
 
         public synchronized void atualizaRes(User user) throws InterruptedException{
@@ -143,9 +143,8 @@ public class Lobby {
             }
 
     public synchronized void esperaEquipa(User user) throws InterruptedException {
-	    //TODO
-        if (this.equipaA.getJog()==1 && this.equipaB.getJog()==1) notifyAll();
-        while(this.equipaA.getJog()!=1 && this.equipaB.getJog()!=1)
+        if (this.equipaA.getJog()==5 && this.equipaB.getJog()==5) notifyAll();
+        while(this.equipaA.getJog()!=5 && this.equipaB.getJog()!=5)
             wait();
     }
 }

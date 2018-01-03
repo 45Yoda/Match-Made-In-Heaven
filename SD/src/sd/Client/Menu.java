@@ -93,8 +93,6 @@ public class Menu {
         }
 
 
-            //TODO jogar,stats, sair
-        
         System.out.println("\n           * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
         System.out.println("           * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
         
