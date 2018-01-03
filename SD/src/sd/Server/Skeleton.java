@@ -36,6 +36,7 @@ public class Skeleton extends Thread{
     		String request;
             while((request = readSocket.readLine()) != null){
     			String response = null;
+                System.out.println(request);
                 response = interpretRequest(request);
 
     		if(!response.isEmpty())
@@ -64,23 +65,35 @@ public class Skeleton extends Thread{
     
     private String runCommand(String request) throws RequestFailedException, IOException, NoAuthorizationException {
         String user,pass;
+        String[] keywords = request.split("-",2);
+        System.out.println(keywords[0]);
 
-
-		switch(request) {
-            case "Iniciar Sessao":
-				userMustBeLogged(false);
-                user = readSocket.readLine();
-				pass = readSocket.readLine();
-
-                return login(user,pass);
-
-			case "Registar":
+		switch(keywords[0].toUpperCase()) {
+            case "LOGIN":
 				userMustBeLogged(false);
 
-				user = readSocket.readLine();
-				pass = readSocket.readLine();
+                return login(keywords[1]);
 
-				return signUp(user,pass);
+			case "REGISTAR":
+				userMustBeLogged(false);
+
+				return signUp(keywords[1]);
+
+            /*
+            case "Hero":
+                userMustBeLogged(true);
+                int hero = Integer.parseInt(keywords[1]);
+                return match.escolherHeroi(user, hero);*/
+
+            /*
+            case "Constituicao":
+                userMustBeLogged(true);
+                return match.constituicao();
+
+            case "realPlay":
+                userMustBeLogged(true);
+                return match.jogar();
+                */
 
 			case "Play":
                 userMustBeLogged(true);
@@ -99,12 +112,16 @@ public class Skeleton extends Thread{
 		}
 	}
         
-    private String login(String usern,String pass)throws RequestFailedException{
+    private String login(String args)throws RequestFailedException {
+        String[] param = args.split("-");
 
-        try{
-            this.user = match.login(usern, pass);
+        try {
+            this.user = match.login(param[0], param[1]);
 
-	    }catch (NoAuthorizationException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new RequestFailedException("Os argumentos dados não são válidos");
+
+        } catch (NoAuthorizationException e) {
 		    throw new RequestFailedException(e.getMessage());
 	    }
 
@@ -121,10 +138,11 @@ public class Skeleton extends Thread{
 			throw new RequestFailedException("Já existe uma sessão iniciada");
 	}
 
-    private String signUp(String user,String pass) throws RequestFailedException{
+    private String signUp(String args) throws RequestFailedException{
+        String[] param = args.split("-");
 
         try{
-            match.SignUp(user, pass);
+            match.SignUp(param[0], param[1]);
         }catch (UsernameExistsException e) {
             throw new RequestFailedException(e.getMessage());
         }

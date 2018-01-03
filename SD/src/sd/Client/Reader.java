@@ -50,7 +50,7 @@ public class Reader extends Thread{
                     case 0:
                         clearScreen();
                         if(input.equals("1")){
-                            escreverSocket.println("Iniciar Sessao");
+                            //escreverSocket.println("LOGIN");
                             login();
                             /*
                             this.lock.lock();
@@ -60,8 +60,9 @@ public class Reader extends Thread{
                             input = "1";
                         }
                         else if(input.equals("2")){
-                            escreverSocket.println("Registar");
+                            //escreverSocket.println("REGISTAR");
                             signup();
+
                             input = "2";
                         }
                         
@@ -75,7 +76,7 @@ public class Reader extends Thread{
                         }
                         
                         else System.out.println("Opção invalida.");
-
+                    /*
                     case 1:
                             clearScreen();
                             if(input.equals("1")){
@@ -91,7 +92,7 @@ public class Reader extends Thread{
                                 clearScreen();
                                 menu.showMenu();
                             }
-
+                    */
 
                     default:
                         break;
@@ -109,29 +110,40 @@ public class Reader extends Thread{
     }
     
     public void login(){
-        String username;
-        String password;
+        String username="";
+        String password="";
+        String query;
         System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
         System.out.println("* *                                                                                       * *");
         System.out.println("* *       Introduza  username:                                                            * *");
-         
-         try{
+
+
+        try {
             username = lerTeclado.readLine();
-            escreverSocket.println(username);
-         }catch(Exception e){
-             System.out.println(e.getMessage());
-         }
-         
+            //escreverSocket.println(username);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
          System.out.println("* *                                                                                       * *");
          System.out.println("* *       Introduza password:                                                             * *");           
          
          try{
              password = lerTeclado.readLine();
-             escreverSocket.println(password);
+             //escreverSocket.println(password);
          }catch(Exception e){
              System.out.println(e.getMessage());
          }
-         
+
+         try{
+            query = String.join("-","LOGIN",username,password);
+            escreverSocket.println(query);
+         }catch(Exception e){
+             System.out.println(e.getMessage());
+         }
+
+
          System.out.println("* *                                                                                       * *");
          System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
          System.out.println("                  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *              \n");
@@ -139,15 +151,16 @@ public class Reader extends Thread{
     }
     
     public void signup(){
-        String username;
-        String password;
+        String username = "";
+        String password = "";
+        String query = "";
         System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
         System.out.println("* *                                                                                       * *");
         System.out.println("* *       Introduza  username:                                                            * *");
          
          try{
             username = lerTeclado.readLine();
-            escreverSocket.println(username);
+            //escreverSocket.println(username);
          }catch(Exception e){
              System.out.println(e.getMessage());
          }
@@ -157,10 +170,18 @@ public class Reader extends Thread{
          
          try{
              password = lerTeclado.readLine();
-             escreverSocket.println(password);
+             //escreverSocket.println(password);
          }catch(Exception e){
              System.out.println(e.getMessage());
          }
+
+        try{
+            query = String.join("-","REGISTAR",username,password);
+            System.out.println(query);
+            escreverSocket.println(query);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
          
          System.out.println("* *                                                                                       * *");
          System.out.println("* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
