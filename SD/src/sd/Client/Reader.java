@@ -50,17 +50,11 @@ public class Reader extends Thread{
                     case 0:
                         clearScreen();
                         if(input.equals("1")){
-                            //escreverSocket.println("LOGIN");
                             login();
-                            /*
-                            this.lock.lock();
-                            c.await();
-                            this.lock.unlock();
-                            */
+
                             input = "1";
                         }
                         else if(input.equals("2")){
-                            //escreverSocket.println("REGISTAR");
                             signup();
 
                             input = "2";
@@ -76,11 +70,12 @@ public class Reader extends Thread{
                         }
                         
                         else System.out.println("Opção invalida.");
-                    /*
+
                     case 1:
                             clearScreen();
                             if(input.equals("1")){
-                                escreverSocket.println("Play");
+                                System.out.println("TETONAS");
+                                //escreverSocket.println("Play");
 
                                 input="1";
                             }
@@ -92,7 +87,7 @@ public class Reader extends Thread{
                                 clearScreen();
                                 menu.showMenu();
                             }
-                    */
+
 
                     default:
                         break;
@@ -120,8 +115,6 @@ public class Reader extends Thread{
 
         try {
             username = lerTeclado.readLine();
-            //escreverSocket.println(username);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -131,7 +124,6 @@ public class Reader extends Thread{
          
          try{
              password = lerTeclado.readLine();
-             //escreverSocket.println(password);
          }catch(Exception e){
              System.out.println(e.getMessage());
          }

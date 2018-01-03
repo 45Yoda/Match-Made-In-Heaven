@@ -34,28 +34,18 @@ public class Writer extends Thread {
                 while((inp = lerSocket.readLine()) != null){
                     if(inp.equals("Logged in!")){
                         menu.setOp(1);
-                        /*
-                        this.lock.lock();
-                        cond.signal();
-                        this.lock.unlock();
-                        */
+
                     }
                     if(inp.equals("Registo efectuado com sucesso")){
                         menu.setOp(0);
-                       /*
-                        this.lock.lock();
-                        cond.signal();
-                        this.lock.unlock();
-                        */
+
                     }
                     if(inp.equals("Jogo encontrado")){
                         menu.setOp(2);
                     }
                     if(inp.equals("Terminou sessão") || inp.equals("Username inexistente") || inp.equals("Password incorrecta")){
                         menu.setOp(0);
-                        this.lock.lock();
-                        cond.signal();
-                        this.lock.unlock();
+
                     }
                 }
                 System.out.println("\n"+inp+"\n");

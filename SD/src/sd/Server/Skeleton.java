@@ -64,7 +64,6 @@ public class Skeleton extends Thread{
     }
     
     private String runCommand(String request) throws RequestFailedException, IOException, NoAuthorizationException {
-        String user,pass;
         String[] keywords = request.split("-",2);
         System.out.println(keywords[0]);
 
@@ -99,7 +98,7 @@ public class Skeleton extends Thread{
                 userMustBeLogged(true);
                 return play();
 
-            case "Stats":
+            case "STATS":
                 userMustBeLogged(true);
                 return viewStats();
 

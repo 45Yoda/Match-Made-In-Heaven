@@ -74,8 +74,9 @@ public class Menu {
                     "           * *                                                                                       * *  ",
                     "           * *                    0 - SAIR                                                           * *  ",
                     "           * *                                                                                       * *  ",
-
             };
+                r = loggedMenu;
+                break;
 
             case 2: String [] menuHerois = {
                 "           * 1-Andormeda                       11-Chamaeleon                      21-Hydra             *  ",
@@ -112,23 +113,6 @@ public class Menu {
     }
 
 
-    //TODO ver isto:
-    /*
-    public void menuHeroi() {
-        System.out.println("           * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  ");
-        System.out.println("           * 1-Andormeda                       11-Chamaeleon                      21-Hydra             *  ");
-        System.out.println("           * 2-Apus                            12-Cancer                          22-Lemon             *  ");
-        System.out.println("           * 3-Argo                            13-Coma                            23-Lupus             *  ");
-        System.out.println("           * 4-Aries                           14-Crater                          24-Musca             *  ");
-        System.out.println("           * 5-Bootes                          15-Crux                            25-Orion             *  ");
-        System.out.println("           * 6-Camelopardalis                  16-Corvus                          26-Pavo              *  ");
-        System.out.println("           * 7-Carina                          17-Delphinus                       27-Pegasus           *  ");
-        System.out.println("           * 8-Cassiopeia                      18-Draco                           28-Pictor            *  ");
-        System.out.println("           * 9-Centauros                       19-Fornax                          29-Reticulum         *  ");
-        System.out.println("           * 10-Cetus                          20-Hercules                        30-Scrutum           *  ");
-        System.out.println("           * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *  ");
-    }*/
-    
     public int getOp(){
         return this.op;
     }
