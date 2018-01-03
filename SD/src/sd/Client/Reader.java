@@ -46,36 +46,33 @@ public class Reader extends Thread{
         try{
             menu.showMenu();
             while((input = lerTeclado.readLine()) != null){
-                switch(menu.getOp()){
-                    case 0:
+                if(menu.getOp()==0) {
+
+                    clearScreen();
+                    if (input.equals("1")) {
+                        login();
+
+                        input = "1";
+
+                    } else if (input.equals("2")) {
+                        signup();
+
+                        input = "2";
+
+                    } else if (input.equals("0")) {
+
+                    }
+
+                    if (input.equals("1") || input.equals("2")) {
                         clearScreen();
-                        if(input.equals("1")){
-                            login();
+                        menu.showMenu();
 
-                            input = "1";
-                        }
-                        else if(input.equals("2")){
-                            signup();
-
-                            input = "2";
-                        }
-                        
-                        else if(input.equals("0")){
-                            break;
-                        }
-                        
-                        if(input.equals("1") || input.equals("2")){
-                            clearScreen();
-                            menu.showMenu();
-                        }
-                        
-                        else System.out.println("Opção invalida.");
-
-                    case 1:
+                    } else System.out.println("Opção invalida.");
+                }
+                 else if(menu.getOp()==1){
                             clearScreen();
                             if(input.equals("1")){
-                                System.out.println("TETONAS");
-                                //escreverSocket.println("Play");
+                                escreverSocket.println("Play");
 
                                 input="1";
                             }
@@ -87,12 +84,15 @@ public class Reader extends Thread{
                                 clearScreen();
                                 menu.showMenu();
                             }
-
-
-                    default:
-                        break;
               }  
-            
+            else if (menu.getOp()==2) {
+                    clearScreen();
+                    menu.showMenu();
+
+                    if(input.equals("30")){
+                        System.out.println("SCRUTUM!!!!");
+                    }
+                }
             
             }
             

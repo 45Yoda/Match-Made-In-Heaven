@@ -32,6 +32,7 @@ public class Writer extends Thread {
         
         try{       
                 while((inp = lerSocket.readLine()) != null){
+                    System.out.println(inp);
                     String[] q = inp.split("-");
                     if(inp.equals("Logged in!")){
                         menu.setOp(1);

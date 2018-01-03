@@ -68,9 +68,8 @@ public class Matching {
     }
 
     public String distribuirUser(User user) throws InterruptedException{
-        lobbyLock.lock();
-        try {
-            int rank = user.getRank();
+
+         int rank = user.getRank();
             int best = bestLobby(rank);
             while (best == -1) {
                 while (lobbys[rank].getJog() != 0) {
@@ -80,12 +79,11 @@ public class Matching {
             }
             user.setLobby(best);
             lobbys[best].espera(user);
+        System.out.println("distribuir por equipas: ");
             lobbys[best].distribuiEquipa(user);
-            if (lobbys[best].getEquipaA().getJog()==5 && lobbys[best].getEquipaB().getJog()==5) notifyAll();
-            while(lobbys[best].getEquipaA().getJog()!=5 && lobbys[best].getEquipaB().getJog()!=5)
-                wait();
+            lobbys[best].esperaEquipa(user);
+            System.out.println("Lobby: "+user.getLobby() + " Equipa "+user.getEquipa());
             return "menu herois";
-        }finally {lobbyLock.unlock();}
         }
 
      public String escolherHeroi(User user, int h) throws InterruptedException {
@@ -146,8 +144,8 @@ public class Matching {
     public int ocup(int min,int max) {
         int m=-1;
         for (int i = min;i<=max;i++)
-            if (lobbys[i].getJog()>m && lobbys[i].getJog()!=10) m=i;
-        System.out.println(m);
+            if (lobbys[i].getJog()>m && lobbys[i].getJog()!=2) m=i;//TODO
+        System.out.println("Lobby: " +m);
         return m;
     }
 }
