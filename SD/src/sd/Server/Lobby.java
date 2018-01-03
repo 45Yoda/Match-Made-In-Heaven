@@ -110,7 +110,9 @@ public class Lobby {
                 lista.add(notificacoes.get(i));
             if (equipaA.getPontuacao()>equipaB.getPontuacao()) lista.add("Equipa Vencedora: A!!!");
             else lista.add("Equipa Vencedora: B!!!");
-            sleep(5);
+            sleep(500);
+            atualizaRes(user);
+            resetLobby(user);
             System.out.println(lista);
 
             return lista;
