@@ -47,6 +47,27 @@ public class Writer extends Thread {
                     if(inp.equals("Terminou sessão") || inp.equals("Username inexistente") || inp.equals("Password incorrecta")){
                         menu.setOp(0);
                     }
+                    if(inp.equals("Heroi Selecionado")){
+                        System.out.println(inp);
+                        //meter a comunicar com reader/escrever no socket
+                        //TODO meter menu do jogo
+                    }
+                    if(q[0].equals("Constituicao Equipa")){
+                        for(int i=0;i<q.length;i++){
+                            System.out.println(q[i]);
+                        }
+                        //meter a comunicar com reader/escrever no socket
+                        //TODO meter menu do jogo
+                    }
+                    if(q[0].equals("Resultado do Jogo")){
+                        for(int i=0;i<q.length;i++){
+                            System.out.println(q[i]);
+                        }
+                    }
+                    if(inp.equals("Heroi já escolhido")){
+                        System.out.println(inp);
+                        menu.setOp(2);
+                    }
 
                     if(q[0].equals("Stats")){
                         System.out.println(q[1]);

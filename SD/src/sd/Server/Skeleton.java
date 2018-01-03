@@ -68,34 +68,34 @@ public class Skeleton extends Thread{
         String[] keywords = request.split("-",2);
         System.out.println(keywords[0]);
 
-		switch(keywords[0].toUpperCase()) {
+	switch(keywords[0].toUpperCase()) {
             case "LOGIN":
-				userMustBeLogged(false);
+		userMustBeLogged(false);
 
                 return login(keywords[1]);
 
-			case "REGISTAR":
-				userMustBeLogged(false);
+            case "REGISTAR":
+		userMustBeLogged(false);
 
-				return signUp(keywords[1]);
+		return signUp(keywords[1]);
 
 
-            case "Hero":
+            case "HERO":
                 userMustBeLogged(true);
                 int hero = Integer.parseInt(keywords[1]);
                 return match.escolherHeroi(this.user, hero);
 
 
-            case "Constituicao":
+            case "CONSTITUICAO":
                 userMustBeLogged(true);
                 return match.constituicao(this.user);
 
-            case "realPlay":
+            case "REALPLAY":
                 userMustBeLogged(true);
                 return match.jogar(this.user);
 
 
-			case "Play":
+            case "PLAY":
                 userMustBeLogged(true);
                 return play();
 
@@ -103,7 +103,7 @@ public class Skeleton extends Thread{
                 userMustBeLogged(true);
                 return viewStats();
 
-            case "Terminar Sessão":
+            case "TERMINAR SESSÂO":
                 this.user = null;
                 System.out.println("Sessão terminada;");
 
