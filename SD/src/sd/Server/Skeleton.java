@@ -170,10 +170,10 @@ public class Skeleton extends Thread{
 	}
     
     private String viewStats(){
-        String response = "Stats " + user.getUsername() +
-                          " Played: "+ user.getJogos()+
-                          " + Wins : " + user.getWin() +
-                          " Rank " + user.getRank() ;
+        String response = "Stats: " + user.getUsername() +
+                          "\n Played: "+ user.getJogos()+
+                          "\n Wins : " + user.getWin() +
+                          "\n Rank " + user.getRank();
         
         return response;
     }
