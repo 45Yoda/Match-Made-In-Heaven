@@ -89,9 +89,8 @@ public class Reader extends Thread{
                     clearScreen();
                     menu.showMenu();
 
-                    if(input.equals("30")){
-                        System.out.println("SCRUTUM!!!!");
-                    }
+                    int h = Integer.parseInt(input);
+                    if (h<31 && h>0) escreverSocket.println(h);
                 }
             
             }
