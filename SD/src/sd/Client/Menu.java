@@ -43,16 +43,15 @@ public class Menu {
     private void carregaMenu(int opt){
         String [] r = null;
         
-        switch(opt){
-        
-            case 0: String [] start = {
+        if(opt == 0) {
+            String[] start = {
                     "           * *                                                                                       * * ",
                     "           * *             |  \\/  | / _ \\_   _/ __| |_| |                                            * * ",
                     "           * *             | |\\/| |/ /_\\ \\| || (__|  _  |                                            * * ",
                     "           * *             |_|  |_/_/   \\_|_| \\___|_| |_|                                            * * ",
                     "           * *                                                                                       * *  ",
                     "           * *             |  \\/  | /_\\ |   \\| __| |_ _| \\| | | || | __| /_\\ \\ / / __| \\| |          * *",
-                    "           * *             | |\\/| |/ _ \\| |) | _|   | || .` | | __ | _| / _ \\ V /| _|| .` |          * *",         
+                    "           * *             | |\\/| |/ _ \\| |) | _|   | || .` | | __ | _| / _ \\ V /| _|| .` |          * *",
                     "           * *             |_|  |_/_/ \\_\\___/|___| |___|_|\\_| |_||_|___/_/ \\_\\_/ |___|_|\\_|          * *",
                     "           * *                                                                                       * * ",
                     "           * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *",
@@ -60,14 +59,14 @@ public class Menu {
                     "           * *                                                                                       * *",
                     "           * *                    1 - INICIAR SESSÃO                                                 * *",
                     "           * *                    2 - REGISTAR                                                       * *",
-                    "           * *                                                                                       * *",              
+                    "           * *                                                                                       * *",
                     "           * *                    0 - SAIR                                                           * *",
                     "           * *                                                                                       * *"
             };
-                r = start;
-                break;
-
-            case 1: String[] loggedMenu = {
+            r = start;
+        }
+        else if(opt == 1) {
+            String[] loggedMenu = {
                     "           * *                                                                                       * *  ",
                     "           * *                    1 - PLAY!                                                          * *  ",
                     "           * *                    2 - STATS                                                          * *  ",
@@ -75,30 +74,26 @@ public class Menu {
                     "           * *                    0 - SAIR                                                           * *  ",
                     "           * *                                                                                       * *  ",
             };
-                r = loggedMenu;
-                break;
-
-            case 2: String [] menuHerois = {
-                "           * 1-Andormeda                       11-Chamaeleon                      21-Hydra             *  ",
-                "           * 2-Apus                            12-Cancer                          22-Lemon             *  ",
-                "           * 3-Argo                            13-Coma                            23-Lupus             *  ",
-                "           * 4-Aries                           14-Crater                          24-Musca             *  ",
-                "           * 5-Bootes                          15-Crux                            25-Orion             *  ",
-                "           * 6-Camelopardalis                  16-Corvus                          26-Pavo              *  ",
-                "           * 7-Carina                          17-Delphinus                       27-Pegasus           *  ",
-                "           * 8-Cassiopeia                      18-Draco                           28-Pictor            *  ",
-                "           * 9-Centauros                       19-Fornax                          29-Reticulum         *  ",
-                "           * 10-Cetus                          20-Hercules                        30-Scrutum           *  ",
+            r = loggedMenu;
+         }
+        else if(opt == 2) {
+            String[] menuHerois = {
+                    "           * 1-Andormeda                       11-Chamaeleon                      21-Hydra             *  ",
+                    "           * 2-Apus                            12-Cancer                          22-Lemon             *  ",
+                    "           * 3-Argo                            13-Coma                            23-Lupus             *  ",
+                    "           * 4-Aries                           14-Crater                          24-Musca             *  ",
+                    "           * 5-Bootes                          15-Crux                            25-Orion             *  ",
+                    "           * 6-Camelopardalis                  16-Corvus                          26-Pavo              *  ",
+                    "           * 7-Carina                          17-Delphinus                       27-Pegasus           *  ",
+                    "           * 8-Cassiopeia                      18-Draco                           28-Pictor            *  ",
+                    "           * 9-Centauros                       19-Fornax                          29-Reticulum         *  ",
+                    "           * 10-Cetus                          20-Hercules                        30-Scrutum           *  ",
             };
-                r = menuHerois;
-                break;
-
+            r = menuHerois;
+        }
 
 
             //TODO jogar,stats, sair
-
-                
-        }
         
         System.out.println("\n           * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");
         System.out.println("           * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *");

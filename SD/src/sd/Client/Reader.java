@@ -48,9 +48,13 @@ public class Reader extends Thread{
             while((input = lerTeclado.readLine()) != null){
                 if(menu.getOp()==0) {
 
-                    clearScreen();
+
                     if (input.equals("1")) {
+
                         login();
+                        this.lock.lock();
+                        c.await();
+                        this.lock.unlock();
 
                         input = "1";
 
@@ -60,7 +64,7 @@ public class Reader extends Thread{
                         input = "2";
 
                     } else if (input.equals("0")) {
-
+                            return;
                     }
 
                     if (input.equals("1") || input.equals("2")) {
@@ -70,9 +74,14 @@ public class Reader extends Thread{
                     } else System.out.println("Opção invalida.");
                 }
                  else if(menu.getOp()==1){
-                            clearScreen();
+
                             if(input.equals("1")){
-                                escreverSocket.println("Play");
+                                String query = String.join("-","PLAY");
+                                escreverSocket.println(query);
+
+                                this.lock.lock();
+                                c.await();
+                                this.lock.unlock();
 
                                 input="1";
                             }
@@ -85,12 +94,21 @@ public class Reader extends Thread{
                                 menu.showMenu();
                             }
               }  
-            else if (menu.getOp()==2) {
-                    clearScreen();
-                    menu.showMenu();
+                else if (menu.getOp()==2) {
+                        menu.showMenu();
+
+                     if(input.equals("1")){
+                            System.out.println("burroMaster");
+                            input="1";
+                        }
+                        if(input.equals("1") || input.equals("2")){
+                            clearScreen();
+                            menu.showMenu();
+                        }
 
                     int h = Integer.parseInt(input);
-                    if (h<31 && h>0) escreverSocket.println(h);
+                    if (h>0) System.out.println("Burrice");//escreverSocket.println(h);
+                    input = "1";
                 }
             
             }

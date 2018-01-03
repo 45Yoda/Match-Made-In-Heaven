@@ -65,52 +65,39 @@ public class Skeleton extends Thread{
     
 
     private String runCommand(String request) throws RequestFailedException, IOException, NoAuthorizationException, InterruptedException {
-        String[] keywords = request.split("-",2);
+        String[] keywords = request.split("-", 2);
         System.out.println(keywords[0]);
+        String command = keywords[0].toUpperCase();
 
-	switch(keywords[0].toUpperCase()) {
-            case "LOGIN":
-		userMustBeLogged(false);
-
-                return login(keywords[1]);
-
-            case "REGISTAR":
-		userMustBeLogged(false);
-
-		return signUp(keywords[1]);
-
-
-            case "HERO":
-                userMustBeLogged(true);
-                int hero = Integer.parseInt(keywords[1]);
-                return match.escolherHeroi(this.user, hero);
-
-
-            case "CONSTITUICAO":
-                userMustBeLogged(true);
-                return match.constituicao(this.user);
-
-            case "REALPLAY":
-                userMustBeLogged(true);
-                return match.jogar(this.user);
-
-
-            case "PLAY":
-                userMustBeLogged(true);
-                return play();
-
-            case "STATS":
-                userMustBeLogged(true);
-                return viewStats();
-
-            case "TERMINAR SESSÂO":
-                this.user = null;
-                System.out.println("Sessão terminada;");
-
-            default:
-                throw new RequestFailedException(" não é um comando válido");
-		}
-	}
+        if (command.equals("LOGIN")) {
+            userMustBeLogged(false);
+            return login(keywords[1]);
+        } else if (command.equals("REGISTAR")) {
+            userMustBeLogged(false);
+            return signUp(keywords[1]);
+        } else if (command.equals("HERO")) {
+            userMustBeLogged(true);
+            int hero = Integer.parseInt(keywords[1]);
+            return match.escolherHeroi(this.user, hero);
+        } else if (command.equals("CONSTITUICAO")) {
+            userMustBeLogged(true);
+            return match.constituicao(this.user);
+        } else if (command.equals("REALPLAY")) {
+            userMustBeLogged(true);
+            return match.jogar(this.user);
+        } else if (command.equals("PLAY")) {
+            userMustBeLogged(true);
+            return play();
+        } else if (command.equals("STATS")) {
+            userMustBeLogged(true);
+            return viewStats();
+        } else if (command.equals("TERMINAR SESSAO")){
+            this.user = null;
+            System.out.println("Sessão terminada;");
+            }
+        else  throw new RequestFailedException(" não é um comando válido");
+        return "";
+    }
         
     private String login(String args)throws RequestFailedException {
         String[] param = args.split("-");
@@ -153,11 +140,11 @@ public class Skeleton extends Thread{
 
     private String play() throws RequestFailedException {
         try{
-            match.distribuirUser(user);
+            String u = match.distribuirUser(user);
         }catch(InterruptedException e){
             throw new RequestFailedException("Não foi possivel encontrar um jogo");
         }
-        return "Jogo encontrado";
+        return "Jogo Encontrado";
     }
     
     private void endConnection() {
