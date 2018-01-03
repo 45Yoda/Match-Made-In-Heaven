@@ -78,7 +78,7 @@ public class Skeleton extends Thread{
         } else if (command.equals("HERO")) {
             userMustBeLogged(true);
             int hero = Integer.parseInt(keywords[1]);
-            return match.escolherHeroi(this.user, hero);
+            return match.escolherHeroi(this.user, hero-1);
         } else if (command.equals("CONSTITUICAO")) {
             userMustBeLogged(true);
             return match.constituicao(this.user);

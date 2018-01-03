@@ -6,6 +6,9 @@
 package Client;
 
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -15,15 +18,18 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Writer extends Thread {
     private BufferedReader lerSocket;
+    private PrintWriter escreverSocket;
     private Menu menu;
     private ReentrantLock lock; 
     private Condition cond;
     
-    public Writer(BufferedReader socket, Menu menu, ReentrantLock l, Condition c){
+    public Writer(Socket cli,BufferedReader socket, Menu menu, ReentrantLock l, Condition c) throws IOException {
         this.lerSocket = socket;
         this.menu = menu;
         this.lock = l;
         this.cond = c;
+        this.escreverSocket = new PrintWriter(cli.getOutputStream(),true);
+
     }
     
    
@@ -59,24 +65,27 @@ public class Writer extends Thread {
                     }
                     if(inp.equals("Heroi Selecionado")){
                         System.out.println(inp);
-                        //meter a comunicar com reader/escrever no socket
-                        //TODO meter menu do jogo
+                        escreverSocket.println("CONSTITUICAO");
                     }
                     if(q[0].equals("Constituicao Equipa")){
                         for(int i=0;i<q.length;i++){
                             System.out.println(q[i]);
                         }
-                        //meter a comunicar com reader/escrever no socket
-                        //TODO meter menu do jogo
+                        escreverSocket.println("REALPLAY");
                     }
                     if(q[0].equals("Resultado do Jogo")){
                         for(int i=0;i<q.length;i++){
                             System.out.println(q[i]);
                         }
+                        sleep(10);
+                        menu.setOp(1);
+                        this.lock.lock();
+                        cond.signal();
+                        this.lock.unlock();
                     }
                     if(inp.equals("Heroi já escolhido")){
                         System.out.println(inp);
-                        menu.setOp(2);
+
                     }
 
                     if(q[0].equals("Stats")){

@@ -25,7 +25,7 @@ public class HeavenMatch {
             BufferedReader lerSocket = new BufferedReader(new InputStreamReader(cli.getInputStream()));
             Menu menu = new Menu();
             Reader rd = new Reader(cli,menu,lock,cond);
-            Writer w = new Writer(lerSocket,menu,lock,cond);
+            Writer w = new Writer(cli,lerSocket,menu,lock,cond);
             
             rd.start();
             w.start();

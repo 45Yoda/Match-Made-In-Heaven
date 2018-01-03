@@ -79,6 +79,7 @@ public class Reader extends Thread{
                                 String query = String.join("-","PLAY");
                                 escreverSocket.println(query);
 
+                                System.out.println("Procurando Jogo");
                                 this.lock.lock();
                                 c.await();
                                 this.lock.unlock();
@@ -95,10 +96,9 @@ public class Reader extends Thread{
                             }
               }  
                 else if (menu.getOp()==2) {
-                        menu.showMenu();
+
 
                      if(input.equals("1")){
-                            System.out.println("burroMaster");
                             input="1";
                         }
                         if(input.equals("1") || input.equals("2")){
@@ -107,8 +107,7 @@ public class Reader extends Thread{
                         }
 
                     int h = Integer.parseInt(input);
-                    if (h>0) System.out.println("Burrice");//escreverSocket.println(h);
-                    input = "1";
+                    if (h>0 && h<31) escreverSocket.println("HERO-"+h);
                 }
             
             }

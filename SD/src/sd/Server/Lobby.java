@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import static java.lang.Thread.sleep;
+
 public class Lobby {
 	private static int tam=2;//TODO
 	private int jog;
@@ -96,7 +98,7 @@ public class Lobby {
             if (user.getEquipa()==0) eq="A";
             else eq="B";
             int pont = ThreadLocalRandom.current().nextInt(0,10+1);
-            notificacoes.add("Equipa "+eq+": " +user.getUsername()+" ----> "+user.getHeroi().getNome()+": "+pont+" pontos.");
+            notificacoes.add("Equipa "+eq+": User: " +user.getUsername()+" "+user.getHeroi().getNome()+": "+pont+" pontos.");
             if (user.getEquipa()==0)
                 equipaA.score(pont);
             else equipaB.score(pont);
@@ -104,8 +106,12 @@ public class Lobby {
                     wait();
                 notifyAll();
             List<String> lista = new ArrayList<>();
-            for(int i=10;i<4;i++) //TODO
+            lista.add("Resultado do Jogo");
+            for(int i=2;i<5;i++) //TODO
                 lista.add(notificacoes.get(i));
+            sleep(5);
+            System.out.println(lista);
+
             return lista;
             }
         
@@ -114,7 +120,7 @@ public class Lobby {
             String eq = null;
             if (user.getEquipa()==0) eq="A";
             else eq="B";
-            notificacoes.add("Equipa "+eq+": " +user.getUsername()+" ----> "+user.getHeroi().getNome());
+            notificacoes.add("Equipa "+eq+": " +"User: "+user.getUsername()+"Heroi: "+user.getHeroi().getNome());
             while(notificacoes.size()!=2)//TODO
                 wait();
             notifyAll();
