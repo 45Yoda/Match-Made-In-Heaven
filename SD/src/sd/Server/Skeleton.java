@@ -172,8 +172,8 @@ public class Skeleton extends Thread{
     private String viewStats(){
         String response = "Stats: " + user.getUsername() +
                           "\n Played: "+ user.getJogos()+
-                          "\n Wins : " + user.getWin() +
-                          "\n Rank " + user.getRank();
+                          "\n Wins: " + user.getWin() +
+                          "\n Rank: " + user.getRank();
         
         return response;
     }
